@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 /**
@@ -25,11 +26,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
+        //Create new string and initialise it with the value of the "Username" declared earlier
+        String username = getIntent().getStringExtra("Username");
+
         editUsername = (EditText) findViewById(R.id.editUsername);
         editPassword = (EditText) findViewById(R.id.editPassword);
         bLogout = (Button) findViewById(R.id.bLogout);
+        TextView tv = (TextView)findViewById(R.id.tvUserview);
+        tv.setText("Welcome " + username);
 
         bLogout.setOnClickListener(this);
+
         //give new local store contents
         userLocalStore = new UserLocalStore(this);
     }

@@ -40,11 +40,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.bLogin:
 
-                User user = new User(null, null);
-                userLocalStore.storeUserData(user);
-                userLocalStore.setUserLoggedIn(true);
+                //User user = new User(null, null);
+                //userLocalStore.storeUserData(user);
+                //userLocalStore.setUserLoggedIn(true);
 
-                startActivity(new Intent(MainActivity.this, Login.class));
+                EditText a = (EditText)findViewById(R.id.editUsername);
+                String str = a.getText().toString();
+
+                Intent i = new Intent(MainActivity.this, Login.class);
+                i.putExtra("Username", str);
+                startActivity(i);
                 //Intent intent = new Intent(MainActivity.this, Login.class);
                 break;
 
