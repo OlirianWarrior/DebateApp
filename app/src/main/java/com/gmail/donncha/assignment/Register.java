@@ -35,12 +35,31 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         switch (v.getId())
         {
             case R.id.regRegister:
+
+
+                EditText username = (EditText)findViewById(R.id.regUsername);
+                EditText password = (EditText)findViewById(R.id.regPassword);
+
+                String usernameStr = username.getText().toString();
+                String passwordStr = password.getText().toString();
+
+                 //helped from:
+                 // http://code.tutsplus.com/tutorials/android-user-interface-design-password-confirmation--mobile-7428
+
+                /*if(!pass1str.equals(pass2str))
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "Passwords did not match!", Toast.LENGTH_LONG).show();
+                }*/
+
+
+                //String username =regUsername.getText().toString();
+                //String password =regPassword.getText().toString();
+
+                User registeredData = new User(usernameStr, passwordStr);
+
                 Toast.makeText(getApplicationContext(),
                         "Registered Successfully", Toast.LENGTH_LONG).show();
-                String username =regUsername.getText().toString();
-                String password =regPassword.getText().toString();
-
-                User registeredData = new User(username, password);
 
                 startActivity(new Intent(Register.this, MainActivity.class));
              break;
