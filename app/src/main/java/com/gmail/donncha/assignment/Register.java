@@ -13,6 +13,8 @@ import android.widget.Toast;
  */
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
+    DatabaseHelper helper = new DatabaseHelper(this);
+
     Button regRegister;
     EditText regUsername, regPassword;
 
@@ -43,6 +45,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 String usernameStr = username.getText().toString();
                 String passwordStr = password.getText().toString();
 
+                Contact c = new Contact();
+
+                c.setUsername(usernameStr);
+                c.setPassword(passwordStr);
+
+                helper.insertContact(c);
+
                  //helped from:
                  // http://code.tutsplus.com/tutorials/android-user-interface-design-password-confirmation--mobile-7428
 
@@ -56,10 +65,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 //String username =regUsername.getText().toString();
                 //String password =regPassword.getText().toString();
 
-                User registeredData = new User(usernameStr, passwordStr);
+              //  User registeredData = new User(usernameStr, passwordStr);
 
                 Toast.makeText(getApplicationContext(),
                         "Registered Successfully", Toast.LENGTH_LONG).show();
+
+
 
                 startActivity(new Intent(Register.this, MainActivity.class));
              break;

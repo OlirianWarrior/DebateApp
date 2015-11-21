@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -13,6 +14,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText editUsername, editPassword;
 
     UserLocalStore userLocalStore;
+
+    DatabaseHelper helper = new DatabaseHelper(this);
 
 
     @Override
@@ -46,10 +49,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 EditText a = (EditText)findViewById(R.id.editUsername);
                 String str = a.getText().toString();
+                EditText b = (EditText)findViewById(R.id.editPassword);
+                String pass = b.getText().toString();
 
-                Intent i = new Intent(MainActivity.this, Login.class);
-                i.putExtra("Username", str);
-                startActivity(i);
+
+                // fetch password
+                String password = helper.searchPass(str);
+                if(pass.equals(password))
+                {
+                    Intent i = new Intent(MainActivity.this, Login.class);
+                    i.putExtra("Username", str);
+                    startActivity(i);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "Password or Username invalid!", Toast.LENGTH_LONG).show();
+                    //temp.show();
+                }
+
                 //Intent intent = new Intent(MainActivity.this, Login.class);
                 break;
 

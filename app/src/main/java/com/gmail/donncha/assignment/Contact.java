@@ -5,18 +5,7 @@ package com.gmail.donncha.assignment;
  */
 public class Contact {
 
-    int id;
     String username, password;
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    public int getId()
-    {
-        return this.id;
-    }
 
     public void setUsername(String username)
     {
