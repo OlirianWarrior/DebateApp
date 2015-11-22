@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.db = db;
     }
 
-    public void insertUser(User c)
+    public void insertUser(UserInfo c)
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

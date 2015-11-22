@@ -3,7 +3,7 @@ package com.gmail.donncha.assignment;
 /**
  * Created by donncha on 11/16/2015.
  */
-public class Contact {
+public class UserInfo {
 
     String username, password;
 

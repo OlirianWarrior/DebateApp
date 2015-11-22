@@ -45,7 +45,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 String usernameStr = username.getText().toString();
                 String passwordStr = password.getText().toString();
 
-                Contact c = new Contact();
+                UserInfo c = new UserInfo();
 
                 c.setUsername(usernameStr);
                 c.setPassword(passwordStr);
