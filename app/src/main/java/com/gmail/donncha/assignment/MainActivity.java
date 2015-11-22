@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button bLogout, bRegister, bLogin;
     EditText editUsername, editPassword;
+    public static String loginUsername;
 
     UserLocalStore userLocalStore;
 

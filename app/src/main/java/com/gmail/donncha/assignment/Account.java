@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 public class Account extends AppCompatActivity implements View.OnClickListener {
 
+    DatabaseHelper helper = new DatabaseHelper(this);
+
     Button bLogout;
     EditText editUsername, editPassword;
     UserLocalStore userLocalStore;
@@ -67,6 +69,11 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
 
         editUsername.setText(user.username);
         editPassword.setText(user.password);
+
+    }
+
+    public void getQuery()
+    {
 
     }
 

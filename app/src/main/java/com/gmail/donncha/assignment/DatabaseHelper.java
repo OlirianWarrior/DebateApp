@@ -40,9 +40,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         String query = "select * from users";
-        //Cursor cursor = db.rawQuery(query, null);
-        //int count = cursor.getCount();
-        int count = 1000;
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+        //int count = 1000;
 
         values.put(COLUMN_ID, count);
         values.put(COLUMN_USERNAME, c.getUsername());

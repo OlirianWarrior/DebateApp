@@ -52,6 +52,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
                 helper.insertUser(c);
 
+                Toast.makeText(getApplicationContext(),
+                        "Registered Successfully", Toast.LENGTH_LONG).show();
+
                  //helped from:
                  // http://code.tutsplus.com/tutorials/android-user-interface-design-password-confirmation--mobile-7428
 
@@ -66,11 +69,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 //String password =regPassword.getText().toString();
 
               //  User registeredData = new User(usernameStr, passwordStr);
-
-                Toast.makeText(getApplicationContext(),
-                        "Registered Successfully", Toast.LENGTH_LONG).show();
-
-
 
                 startActivity(new Intent(Register.this, MainActivity.class));
              break;

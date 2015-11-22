@@ -10,5 +10,17 @@
         android:layout_height="wrap_content"
         android:text="Hello this is search by topic" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter topic here"
+        android:id="@+id/editTopic"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back to Menu"
+        android:id="@+id/bBack"/>
 
 </LinearLayout>
