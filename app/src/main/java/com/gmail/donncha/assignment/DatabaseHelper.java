@@ -13,15 +13,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "DebateApp.db";
-    private static final String TABLE_NAME = "users";
+    private static final String TABLE_NAME = "Users";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     SQLiteDatabase db;
 
-    private static final String TABLE_CREATE =
-            "create table contacts (id integer primary key not null, " +
-            "username text not null, password text not null)";
+    private static final String TABLE_CREATE = "create table Users (id integer primary key not null , " +
+            "username text not null , password text not null);";
 
     public DatabaseHelper(Context context)
     {
@@ -35,14 +34,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.db = db;
     }
 
-    public void insertContact(Contact c)
+    public void insertUser(User c)
     {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        String query = "select * from contacts";
+        String query = "select * from Users";
         Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+        //int count = 1;
 
+        values.put(COLUMN_ID, count);
         values.put(COLUMN_USERNAME, c.getUsername());
         values.put(COLUMN_PASSWORD, c.getPassword());
 
@@ -50,10 +52,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String searchPass(String uname)
+    public String searchPass(String username)
     {
-        db = getReadableDatabase();
-        String query = "select uname, pass from " + TABLE_NAME;
+        db = this.getReadableDatabase();
+        String query = "select username, password from "+TABLE_NAME;
 
         Cursor cursor = db.rawQuery(query, null);
         String a, b;
@@ -63,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do{
                 a = cursor.getString(0);
 
-                if(a.equals(uname))
+                if(a.equals(username))
                 {
                     b = cursor.getString(1);
                     break;

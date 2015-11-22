@@ -50,7 +50,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 c.setUsername(usernameStr);
                 c.setPassword(passwordStr);
 
-                helper.insertContact(c);
+                helper.insertUser(c);
 
                  //helped from:
                  // http://code.tutsplus.com/tutorials/android-user-interface-design-password-confirmation--mobile-7428
