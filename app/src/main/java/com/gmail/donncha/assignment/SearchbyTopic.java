@@ -22,7 +22,7 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
 
         bBack.setOnClickListener(this);
     }
-    
+
     @Override
     public void onClick(View v) {
 

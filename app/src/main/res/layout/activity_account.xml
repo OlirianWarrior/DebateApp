@@ -7,16 +7,31 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvUserview"
-        android:text="Welcome!" />
+        android:text="Welcome!"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dbinfo"
+        />
 
     <Button
         android:id="@+id/bLogout"
         android:text="Logout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back to Menu"
+        android:id="@+id/bBack"
+        />
 
 
 </LinearLayout>

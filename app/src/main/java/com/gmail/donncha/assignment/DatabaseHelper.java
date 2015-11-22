@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by donncha on 11/16/2015.
  */
@@ -75,6 +79,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return b;
     }
+
+    public String searchUser(String username, int index_col) throws SQLException
+    {
+        db = this.getReadableDatabase();
+        String query = "select username, password from "+TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(query, null);
+        String data;
+        data = "no data found";
+        if(cursor.moveToFirst())
+        {
+                data = cursor.getString(index_col);
+        }
+        return data;
+    }
+
+    public Cursor select(String query)
+    {
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        return cursor;
+    }
+
+    public Cursor select(String query, List<String> params)
+    {
+        Cursor cursor = db.rawQuery(query, (String[])params.toArray());
+        cursor.moveToFirst();
+        return  cursor;
+    }
+
+
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVerison)
     {
