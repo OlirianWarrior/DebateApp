@@ -11,15 +11,15 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "DebateApp.db";
-    private static final String TABLE_NAME = "Users";
-    private static final String COLUMN_ID = "id";
+    private static final String TABLE_NAME = "users";
+    private static final String COLUMN_ID = "user_id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     SQLiteDatabase db;
 
-    private static final String TABLE_CREATE = "create table Users (id integer primary key not null , " +
+    private static final String TABLE_CREATE = "create table users (user_id integer primary key not null , " +
             "username text not null , password text not null);";
 
     public DatabaseHelper(Context context)
@@ -39,10 +39,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        String query = "select * from Users";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
-        //int count = 1;
+        String query = "select * from users";
+        //Cursor cursor = db.rawQuery(query, null);
+        //int count = cursor.getCount();
+        int count = 1000;
 
         values.put(COLUMN_ID, count);
         values.put(COLUMN_USERNAME, c.getUsername());
@@ -78,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVerison)
     {
-        String query = "DROP TABLE IF EXISTS " + TABLE_NAME;
+        String query = "DROP TABLE IF EXISTS "+TABLE_NAME;
         db.execSQL(query);
         this.onCreate(db);
     }

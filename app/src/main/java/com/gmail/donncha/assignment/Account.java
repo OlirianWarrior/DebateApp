@@ -13,7 +13,7 @@ import android.widget.TextView;
  * Created by donncha on 11/14/2015.
  */
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Account extends AppCompatActivity implements View.OnClickListener {
 
     Button bLogout;
     EditText editUsername, editPassword;
@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 userLocalStore.clearUserData();
                 userLocalStore.setUserLoggedIn(false);
 
-                startActivity(new Intent(Login.this, MainActivity.class));
+                startActivity(new Intent(Account.this, MainActivity.class));
             break;
         }
     }

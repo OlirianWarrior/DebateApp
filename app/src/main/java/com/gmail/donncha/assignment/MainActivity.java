@@ -52,12 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EditText b = (EditText)findViewById(R.id.editPassword);
                 String pass = b.getText().toString();
 
-
                 // fetch password
                 String password = helper.searchPass(str);
                 if(pass.equals(password))
                 {
-                    Intent i = new Intent(MainActivity.this, Login.class);
+                    Intent i = new Intent(MainActivity.this, Menu.class);
                     i.putExtra("Username", str);
                     startActivity(i);
                 }
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //temp.show();
                 }
 
-                //Intent intent = new Intent(MainActivity.this, Login.class);
+                //Intent intent = new Intent(MainActivity.this, Account.class);
                 break;
 
             case R.id.bRegister:
