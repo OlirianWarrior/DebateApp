@@ -59,19 +59,20 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
 
         try {
 
-             name = helper.searchUser(username, 1);
+             name = helper.searchUser(username)[1];
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
 
-        try {
+       /* try {
 
-            email = helper.searchUser(username, 2);
+            email = helper.searchUser(username)[2];
         } catch (SQLException e) {
 
             e.printStackTrace();
-        }
+        }*/
+
 
         txtName.setText(name);
         txtEmail.setText(email);

@@ -53,10 +53,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //values.put(COLUMN_ID, count);
         values.put(COLUMN_USERNAME, c.getUsername());
-        values.put(COLUMN_NAME, c.getUsername());
-        values.put(COLUMN_EMAIL, c.getUsername());
+        values.put(COLUMN_NAME, c.getName());
+        values.put(COLUMN_EMAIL, c.getEmail());
         values.put(COLUMN_PASSWORD, c.getPassword());
-        values.put(COLUMN_CONFPASSWORD, c.getUsername());
+        values.put(COLUMN_CONFPASSWORD, c.getConfpassword());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -69,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(query, null);
         String a, b;
-        b = "not found";
+        b = "invalid username or password";
         if(cursor.moveToFirst())
         {
             do{
@@ -86,19 +86,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return b;
     }
 
-    public String searchUser(String username, int index_col) throws SQLException
+    public UserDataInfo searchUser(String username) throws SQLException
     {
         db = this.getReadableDatabase();
-        String query = "select username, name, email from "+TABLE_NAME;
+        //String query = "select username, name, email from "+TABLE_NAME+" WHERE username='"+username+"'";
+        String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, username);
+
 
         Cursor cursor = db.rawQuery(query, null);
-        String data;
+
+        //cursor.get
+
+        //String[i] data = new String[i];
+        //int i = 0;
+
+        String rows[] = new String[cursor.getCount()];
+        for(int i = 0; i < cursor.getCount(); i++)
+        {
+            rows[i] = cursor.getString(0);
+        }
+
+        //while(cursor.moveToNext())
+        //{
+
+        //}
+
+        /*String data;
         data = "no data found";
         if(cursor.moveToFirst())
         {
                 data = cursor.getString(index_col);
-        }
-        return data;
+        }*/
+        return rows;
     }
 
     public Cursor select(String query)
@@ -122,5 +141,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "DROP TABLE IF EXISTS "+TABLE_NAME;
         db.execSQL(query);
         this.onCreate(db);
+    }
+
+    public class UserDataInfo{
+        public String username;
+        public String name;
+        public String email;
+
+        public UserDataInfo(String username, String name, String email){
+            this.username = username;
+            this.name = name;
+            this.email = email;
+        }
     }
 }
