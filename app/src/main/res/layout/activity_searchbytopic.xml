@@ -3,19 +3,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:padding="10dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello this is search by topic" />
-
-    <EditText
+    <Spinner
+        android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter topic here"
-        android:id="@+id/editTopic"
-        />
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:id="@+id/bSearch"/>
+
+    <ListView
+        android:id="@+id/listDebate"
+        android:layout_width="match_parent"
+        android:layout_height="301dp"
+        android:layout_weight="0.38">
+    </ListView>
 
     <Button
         android:layout_width="match_parent"

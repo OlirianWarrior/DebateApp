@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/debatelist"
-        android:layout_width="match_parent"
-        android:layout_height="400dp">
-    </ListView>
+    android:id="@+id/listDebate"
+    android:layout_width="match_parent"
+    android:layout_height="400dp">
+</ListView>
 
     <Button
         android:layout_width="match_parent"

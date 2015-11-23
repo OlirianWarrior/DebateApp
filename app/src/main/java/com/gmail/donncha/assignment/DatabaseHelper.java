@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -115,6 +116,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while(cursor.moveToNext());
         }
         return b;
+    }
+
+    public ArrayList<String> queryColumn()
+    {
+        db = this.getReadableDatabase();
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+
+        String query = "select question from debate";
+        Cursor cursor = db.rawQuery(query, null);
+
+        while(cursor.moveToNext())
+        {
+            String question = cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION));
+            arrayList.add(question);
+        }
+        return arrayList;
     }
 
     public String searchUser(String username) throws SQLException
