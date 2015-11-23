@@ -16,7 +16,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     DatabaseHelper helper = new DatabaseHelper(this);
 
     Button regRegister;
-    EditText regUsername, regPassword;
+    EditText regUsername, regName, regEmail, regPassword, regConfPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,7 +25,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         setContentView(R.layout.activity_register);
 
         regUsername = (EditText) findViewById(R.id.regUsername);
+        regName = (EditText) findViewById(R.id.regName);
+        regEmail = (EditText) findViewById(R.id.regEmail);
         regPassword = (EditText) findViewById(R.id.regPassword);
+        regConfPassword = (EditText) findViewById(R.id.regConfPassword);
         regRegister = (Button) findViewById(R.id.regRegister);
 
         regRegister.setOnClickListener(this);
@@ -40,15 +43,25 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
 
                 EditText username = (EditText)findViewById(R.id.regUsername);
+                EditText name = (EditText)findViewById(R.id.regName);
+                EditText email = (EditText)findViewById(R.id.regEmail);
                 EditText password = (EditText)findViewById(R.id.regPassword);
+                EditText confpassword = (EditText)findViewById(R.id.regConfPassword);
 
                 String usernameStr = username.getText().toString();
+                String nameStr = name.getText().toString();
+                String emailStr = email.getText().toString();
                 String passwordStr = password.getText().toString();
+                String confpasswordStr = confpassword.getText().toString();
 
                 UserInfo c = new UserInfo();
 
                 c.setUsername(usernameStr);
+                c.setName(nameStr);
+                c.setEmail(emailStr);
+                c.setUsername(usernameStr);
                 c.setPassword(passwordStr);
+                c.setConfpassword(passwordStr);
 
                 helper.insertUser(c);
 

@@ -15,16 +15,19 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 6;
     private static final String DATABASE_NAME = "DebateApp.db";
     private static final String TABLE_NAME = "users";
-    private static final String COLUMN_ID = "user_id";
+    //private static final String COLUMN_ID = "user_id";
     private static final String COLUMN_USERNAME = "username";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_PASSWORD = "password";
+    private static final String COLUMN_CONFPASSWORD = "confpassword";
     SQLiteDatabase db;
 
-    private static final String TABLE_CREATE = "create table users (user_id integer primary key not null , " +
-            "username text not null , password text not null);";
+    private static final String TABLE_CREATE = "create table users (username text primary key not null , " +
+            "name text not null , email text not null , password text not null , confpassword);";
 
     public DatabaseHelper(Context context)
     {
@@ -48,9 +51,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int count = cursor.getCount();
         //int count = 1000;
 
-        values.put(COLUMN_ID, count);
+        //values.put(COLUMN_ID, count);
         values.put(COLUMN_USERNAME, c.getUsername());
+        values.put(COLUMN_NAME, c.getUsername());
+        values.put(COLUMN_EMAIL, c.getUsername());
         values.put(COLUMN_PASSWORD, c.getPassword());
+        values.put(COLUMN_CONFPASSWORD, c.getUsername());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -83,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String searchUser(String username, int index_col) throws SQLException
     {
         db = this.getReadableDatabase();
-        String query = "select username, password from "+TABLE_NAME;
+        String query = "select username, name, email from "+TABLE_NAME;
 
         Cursor cursor = db.rawQuery(query, null);
         String data;

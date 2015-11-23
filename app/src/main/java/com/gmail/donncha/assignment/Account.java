@@ -29,6 +29,9 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        String name = null;
+        String email = null;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
@@ -40,7 +43,8 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
         bLogout = (Button) findViewById(R.id.bLogout);
         bBack = (Button) findViewById(R.id.bBack);
         TextView tv = (TextView)findViewById(R.id.tvUserview);
-        TextView dbInfo = (TextView)findViewById(R.id.dbinfo);
+        TextView txtName = (TextView)findViewById(R.id.txtName);
+        TextView txtEmail = (TextView)findViewById(R.id.txtEmail);
 
         tv.setText("Welcome " + username);
 
@@ -51,13 +55,26 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
         userLocalStore = new UserLocalStore(this);
 
         //Cursor cursor = helper.select("select * from users");
-        String password = null;
+
+
         try {
-            password = helper.searchUser(username, 1);
+
+             name = helper.searchUser(username, 1);
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
-        dbInfo.setText(password);
+
+        try {
+
+            email = helper.searchUser(username, 2);
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        txtName.setText(name);
+        txtEmail.setText(email);
 
 
     }

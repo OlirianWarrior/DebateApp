@@ -5,7 +5,7 @@ package com.gmail.donncha.assignment;
  */
 public class UserInfo {
 
-    String username, password;
+    String username, name, email, password, confpassword;
 
     public void setUsername(String username)
     {
@@ -17,6 +17,28 @@ public class UserInfo {
         return this.username;
     }
 
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getEmail()
+    {
+        return this.email;
+    }
+
     public void setPassword(String password)
     {
         this.password = password;
@@ -25,5 +47,16 @@ public class UserInfo {
     public String getPassword()
     {
         return this.password;
+    }
+
+
+    public void setConfpassword(String confpassword)
+    {
+        this.confpassword = confpassword;
+    }
+
+    public String getConfpassword()
+    {
+        return this.confpassword;
     }
 }
