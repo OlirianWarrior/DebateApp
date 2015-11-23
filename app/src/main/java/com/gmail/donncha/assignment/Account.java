@@ -59,7 +59,7 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
 
         try {
 
-             name = helper.searchUser(username)[1];
+             name = helper.searchUser(username);
         } catch (SQLException e) {
 
             e.printStackTrace();

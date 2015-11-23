@@ -24,9 +24,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <Button
         android:id="@+id/bSearch2"
         android:text="Search by Topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bCreateDebate"
+        android:text="Create Debate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

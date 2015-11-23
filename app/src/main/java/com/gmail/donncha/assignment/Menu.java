@@ -13,7 +13,7 @@ import android.widget.TextView;
  */
 public class Menu extends AppCompatActivity implements View.OnClickListener {
 
-    Button bAccount, bSearch, bSearch2;
+    Button bAccount, bSearch, bSearch2, bCreateDebate;
     public static String username;
 
     @Override
@@ -24,13 +24,15 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_menu);
         //String username = getIntent().getStringExtra("Username");
 
-        bAccount = (Button) findViewById(R.id.bAccount);
-        bSearch = (Button) findViewById(R.id.bSearch);
-        bSearch2 = (Button) findViewById(R.id.bSearch2);
+        bAccount =(Button)findViewById(R.id.bAccount);
+        bSearch =(Button)findViewById(R.id.bSearch);
+        bSearch2 =(Button)findViewById(R.id.bSearch2);
+        bCreateDebate =(Button)findViewById(R.id.bCreateDebate);
 
         bAccount.setOnClickListener(this);
         bSearch.setOnClickListener(this);
         bSearch2.setOnClickListener(this);
+        bCreateDebate.setOnClickListener(this);
 
         TextView tv = (TextView)findViewById(R.id.tvUserName);
         tv.setText("Welcome " + username);
@@ -68,6 +70,13 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
                 startActivity(j);
 
                 break;
+
+            case R.id.bCreateDebate:
+
+                username = getIntent().getStringExtra("Username");
+                Intent l = new Intent(Menu.this, CreateDebate.class);
+                l.putExtra("Username", username);
+                startActivity(l);
         }
     }
 }
