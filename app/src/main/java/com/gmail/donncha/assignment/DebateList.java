@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by donncha on 11/22/2015.
  */
-public class DebateList extends AppCompatActivity implements View.OnClickListener {
+public class DebateList extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     Button bBack;
     String data;
@@ -38,7 +39,7 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
         listview.setAdapter(myArrayAdapter);
 
         bBack.setOnClickListener(this);
-        listview.setOnClickListener(this);
+        listview.setOnItemClickListener(this);
     }
 
     @Override
@@ -54,11 +55,23 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
 
                 break;
 
-            case R.id.listDebate:
+            /*case R.id.listDebate:
                 Intent j = new Intent(DebateList.this, Menu.class);
                 j.putExtra("Username", username);
+                j.putExtra("Question", exList);
                 startActivity(j);
-                break;
+                break;*/
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String username = getIntent().getStringExtra("Username");
+
+        Intent i = new Intent(DebateList.this, DisplayDebate.class);
+        i.putExtra("Username", username);
+        i.putExtra("Position", position);
+        i.putExtra("Id", id);
+        startActivity(i);
     }
 }
