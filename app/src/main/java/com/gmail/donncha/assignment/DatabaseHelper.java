@@ -153,15 +153,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public String searchUser(String username) throws SQLException
+    public QueryInfo searchUser(String username)
     {
         db = this.getReadableDatabase();
         //String query = "select username, name, email from "+TABLE_NAME+" WHERE username='"+username+"'";
         String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, username);
 
-
         Cursor cursor = db.rawQuery(query, null);
-        return cursor.toString();
+        QueryInfo info = new QueryInfo(
+                cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL))
+        );
+
+        return info;
     }
 
     public Cursor select(String query)

@@ -22,8 +22,7 @@
     <ListView
         android:id="@+id/listDebate"
         android:layout_width="match_parent"
-        android:layout_height="301dp"
-        android:layout_weight="0.38">
+        android:layout_height="287dp">
     </ListView>
 
     <Button

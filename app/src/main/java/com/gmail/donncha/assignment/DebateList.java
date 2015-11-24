@@ -32,29 +32,33 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
         bBack = (Button) findViewById(R.id.bBack);
         ListView listview = (ListView) findViewById(R.id.listDebate);
 
-        bBack.setOnClickListener(this);
-        //listview.setOnClickListener(this);
-
         question = helper.queryColumn();
 
         ArrayAdapter<String> myArrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, question);
         listview.setAdapter(myArrayAdapter);
+
+        bBack.setOnClickListener(this);
+        listview.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        String username = getIntent().getStringExtra("Username");
 
         switch (v.getId()) {
 
             case R.id.bBack:
-                String username = getIntent().getStringExtra("Username");
                 Intent i = new Intent(DebateList.this, Menu.class);
                 i.putExtra("Username", username);
                 startActivity(i);
 
-                //startActivity(new Intent(DebateList.this, Menu.class));
                 break;
 
+            case R.id.listDebate:
+                Intent j = new Intent(DebateList.this, Menu.class);
+                j.putExtra("Username", username);
+                startActivity(j);
+                break;
         }
     }
 }

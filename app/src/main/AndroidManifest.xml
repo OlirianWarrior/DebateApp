@@ -22,6 +22,7 @@
         <activity android:name="DebateList" android:label="DebateList"></activity>
         <activity android:name="SearchbyTopic" android:label="SearchbyTopic"></activity>
         <activity android:name="CreateDebate" android:label="CreateDebate"></activity>
+        <activity android:name="DisplayDebate" android:label="DisplayDebate"></activity>
     </application>
 
 </manifest>

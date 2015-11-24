@@ -56,47 +56,11 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
 
         //Cursor cursor = helper.select("select * from users");
 
-
-        try {
-
-             name = helper.searchUser(username);
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-
-       /* try {
-
-            email = helper.searchUser(username)[2];
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }*/
-
+        name = helper.searchUser(username).name;
+        email = helper.searchUser(username).email;
 
         txtName.setText(name);
         txtEmail.setText(email);
-
-
-    }
-
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-
-        if(authenticate() == true)
-        {
-
-        }
-
-    }
-
-    private boolean authenticate()
-    {
-        //tell us if a user is logged in or out
-        return userLocalStore.getUserLoggedIn();
-
     }
 
     public void displayUserDetails()
@@ -106,11 +70,6 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
 
         editUsername.setText(user.username);
         editPassword.setText(user.password);
-
-    }
-
-    public void getQuery()
-    {
 
     }
 
