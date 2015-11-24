@@ -31,7 +31,7 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
         editDebateQuestion = (EditText) findViewById(R.id.editDebateQuestion);
 
         dropdown = (Spinner) findViewById(R.id.spinner1);
-        String[] items = new String[]{"Politics", "Sports", "Video Games", "Contemporary Issues", "Other"};
+        String[] items = new String[]{"Politics", "Sports", "Video Games", "Contemporary Issues", "Music", "Science", "Other"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 

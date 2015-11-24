@@ -135,6 +135,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    public ArrayList<String> queryColumnWhere(String topic)
+    {
+        db = this.getReadableDatabase();
+        //String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, topic);
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+
+        String query = String.format("select question from debate where topic ='%s'", topic);
+        Cursor cursor = db.rawQuery(query, null);
+
+        while(cursor.moveToNext())
+        {
+            String question = cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION));
+            arrayList.add(question);
+        }
+        return arrayList;
+    }
+
     public String searchUser(String username) throws SQLException
     {
         db = this.getReadableDatabase();
@@ -159,8 +177,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         return  cursor;
     }
-
-
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVerison)
     {
