@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 12;
     private static final String DATABASE_NAME = "DebateApp.db";
 
     private static final String TABLE_NAME = "users";
@@ -32,16 +32,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TOPIC = "topic";
     private static final String COLUMN_YES = "yes";
     private static final String COLUMN_NO = "no";
-    //private static final String COLUMN_DUSERNAME = "username";
+
+    private static final String TABLE_COMMENT = "comment";
+    private static final String COLUMN_COMMENTDATA = "commentdata";
+    private static final String COLUMN_COMMENT_ID = "comment_id";
 
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE = "create table if not exists users  (username text primary key not null , " +
             "name text not null , email text not null , password text not null , confpassword);";
 
-    private static final String TABLE_CREATE2 = "create table if not exists debate (debate_id int primary key not null , " +
-            "question text not null , topic text not null , yes int null, no int null , username text not null , " +
+    private static final String TABLE_CREATE2 = "create table if not exists debate (question text primary key not null , " +
+            "topic text not null , yes int null, no int null , username text not null , " +
             "FOREIGN KEY ("+COLUMN_USERNAME+") REFERENCES "+TABLE_NAME+"("+COLUMN_USERNAME+"));";
+
+    private static final String TABLE_CREATE_COMMENTS = "create table if not exists comment (comment_id int primary key not null , " +
+            "commentdata text not null , username text not null , question text not null , " +
+            "FOREIGN KEY ("+COLUMN_USERNAME+") REFERENCES "+TABLE_NAME+"("+COLUMN_USERNAME+") , " +
+            "FOREIGN KEY ("+COLUMN_QUESTION+") REFERENCES "+TABLE_DEBATE+"("+COLUMN_USERNAME+"));";
 
     public DatabaseHelper(Context context)
     {
@@ -53,6 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         db.execSQL(TABLE_CREATE);
         db.execSQL(TABLE_CREATE2);
+        db.execSQL(TABLE_CREATE_COMMENTS);
         this.db = db;
     }
 
@@ -74,6 +83,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void insertComment(CommentInfo c)
+    {
+        db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+        String query = "select * from comment";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+
+        values.put(COLUMN_COMMENT_ID, count);
+        values.put(COLUMN_COMMENTDATA, c.getCommentdata());
+        values.put(COLUMN_USERNAME, c.getUsername());
+
+        db.insert(TABLE_COMMENT, null, values);
+    }
+
+
     public void insertDebate(DebateInfo c)
     {
         db = this.getWritableDatabase();
@@ -83,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount();
 
-        values.put(COLUMN_ID, count);
+        //values.put(COLUMN_ID, count);
         values.put(COLUMN_QUESTION, c.getQuestion());
         values.put(COLUMN_TOPIC, c.getTopic());
         values.put(COLUMN_YES, c.getYesVote());
@@ -118,13 +144,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return b;
     }
 
-    public ArrayList<String> queryColumn()
+    public ArrayList<String> queryColumn(String column, String table)
     {
         db = this.getReadableDatabase();
 
         ArrayList<String> arrayList = new ArrayList<String>();
 
-        String query = "select question from debate";
+        String query = "select "+column+" from "+table;
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext())

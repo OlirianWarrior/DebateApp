@@ -33,7 +33,7 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
         bBack = (Button) findViewById(R.id.bBack);
         ListView listview = (ListView) findViewById(R.id.listDebate);
 
-        question = helper.queryColumn();
+        question = helper.queryColumn("question", "debate");
 
         ArrayAdapter<String> myArrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, question);
         listview.setAdapter(myArrayAdapter);
@@ -54,13 +54,6 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
                 startActivity(i);
 
                 break;
-
-            /*case R.id.listDebate:
-                Intent j = new Intent(DebateList.this, Menu.class);
-                j.putExtra("Username", username);
-                j.putExtra("Question", exList);
-                startActivity(j);
-                break;*/
         }
     }
 
@@ -70,8 +63,10 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
 
         Intent i = new Intent(DebateList.this, DisplayDebate.class);
         i.putExtra("Username", username);
-        i.putExtra("Position", position);
-        i.putExtra("Id", id);
+        //String question = exList.get(position);
+        //i.putExtra("QuestionData", question);
+        //i.putExtra("Position", position);
+        //i.putExtra("Id", id);
         startActivity(i);
     }
 }

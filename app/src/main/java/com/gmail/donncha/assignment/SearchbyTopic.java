@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by donncha on 11/22/2015.
  */
-public class SearchbyTopic extends AppCompatActivity implements View.OnClickListener {
+public class SearchbyTopic extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     Button bBack, bSearch;
     Spinner dropdown;
@@ -37,10 +38,9 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
-
-
         bBack.setOnClickListener(this);
         bSearch.setOnClickListener(this);
+        listview.setOnItemClickListener(this);
     }
 
     @Override
@@ -69,5 +69,16 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
                 break;
 
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String username = getIntent().getStringExtra("Username");
+
+        Intent i = new Intent(SearchbyTopic.this, DisplayDebate.class);
+        i.putExtra("Username", username);
+        i.putExtra("Position", position);
+        i.putExtra("Id", id);
+        startActivity(i);
     }
 }

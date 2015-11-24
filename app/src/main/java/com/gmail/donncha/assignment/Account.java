@@ -90,6 +90,7 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
                 Intent i = new Intent(Account.this, Menu.class);
                 i.putExtra("Username", username);
                 startActivity(i);
+            break;
         }
     }
 }
