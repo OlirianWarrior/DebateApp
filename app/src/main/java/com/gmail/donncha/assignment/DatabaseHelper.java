@@ -169,7 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ArrayList<String> arrayList = new ArrayList<String>();
 
-        String query = String.format("select "+column+" from "+from+" where "+compare+" ='%s'", compare);
+        String query = String.format("select "+column+" from "+from+" where "+compare+" ='%s'", topic);
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext())

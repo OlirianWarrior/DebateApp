@@ -63,10 +63,6 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
 
         Intent i = new Intent(DebateList.this, DisplayDebate.class);
         i.putExtra("Username", username);
-        //String question = exList.get(position);
-        //i.putExtra("QuestionData", question);
-        //i.putExtra("Position", position);
-        //i.putExtra("Id", id);
         startActivity(i);
     }
 }
