@@ -3,6 +3,7 @@ package com.gmail.donncha.assignment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -62,7 +63,7 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
 
                 String topicStr = topic.getSelectedItem().toString();
 
-                question = helper.queryColumnWhere(topicStr);
+                question = helper.queryColumnWhere("question", "debate", topicStr, "topic");
                 ArrayAdapter<String> myArrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, question);
                 listview.setAdapter(myArrayAdapter);
 
@@ -75,10 +76,13 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String username = getIntent().getStringExtra("Username");
 
+        String data =(String)parent.getItemAtPosition(position);
+
+        Log.w("Listview info: ", data);
+
         Intent i = new Intent(SearchbyTopic.this, DisplayDebate.class);
         i.putExtra("Username", username);
-        i.putExtra("Position", position);
-        i.putExtra("Id", id);
+        i.putExtra("Data", data);
         startActivity(i);
     }
 }

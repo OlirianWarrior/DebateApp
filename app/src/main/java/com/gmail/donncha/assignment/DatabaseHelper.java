@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 14;
     private static final String DATABASE_NAME = "DebateApp.db";
 
     private static final String TABLE_NAME = "users";
@@ -93,8 +93,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int count = cursor.getCount();
 
         values.put(COLUMN_COMMENT_ID, count);
-        values.put(COLUMN_COMMENTDATA, c.getCommentdata());
+        values.put(COLUMN_COMMENTDATA, c.getCommentData());
         values.put(COLUMN_USERNAME, c.getUsername());
+        values.put(COLUMN_QUESTION, c.getQuestion());
 
         db.insert(TABLE_COMMENT, null, values);
     }
@@ -155,25 +156,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         while(cursor.moveToNext())
         {
-            String question = cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION));
+            String question = cursor.getString(cursor.getColumnIndex(column));
             arrayList.add(question);
         }
         return arrayList;
     }
 
-    public ArrayList<String> queryColumnWhere(String topic)
+    public ArrayList<String> queryColumnWhere(String column, String from, String topic, String compare)
     {
         db = this.getReadableDatabase();
         //String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, topic);
 
         ArrayList<String> arrayList = new ArrayList<String>();
 
-        String query = String.format("select question from debate where topic ='%s'", topic);
+        String query = String.format("select "+column+" from "+from+" where "+compare+" ='%s'", compare);
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext())
         {
-            String question = cursor.getString(cursor.getColumnIndex(COLUMN_QUESTION));
+            String question = cursor.getString(cursor.getColumnIndex(column));
             arrayList.add(question);
         }
         return arrayList;

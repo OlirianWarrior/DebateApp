@@ -5,16 +5,26 @@ package com.gmail.donncha.assignment;
  */
 public class CommentInfo {
 
-    String commentdata, username;
+    String commentdata, username, question;
 
-    public void setCommentdata(String question)
+    public void setCommentData(String commentdata)
     {
         this.commentdata = commentdata;
     }
 
-    public String getCommentdata()
+    public String getCommentData()
     {
         return this.commentdata;
+    }
+
+    public void setQuestion(String question)
+    {
+        this.question = question;
+    }
+
+    public String getQuestion()
+    {
+        return this.question;
     }
 
     public void setUsername(String username)
