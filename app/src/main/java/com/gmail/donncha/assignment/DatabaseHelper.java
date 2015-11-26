@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 15;
     private static final String DATABASE_NAME = "DebateApp.db";
 
     private static final String TABLE_NAME = "users";
@@ -70,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CREATE);
         db.execSQL(TABLE_CREATE2);
         db.execSQL(TABLE_CREATE_COMMENTS);
-        db.execSQL(TABLE_HASVOTED);
+        db.execSQL(TABLE_CREATE_HASVOTED);
         this.db = db;
     }
 
@@ -206,6 +206,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<String> arrayList = new ArrayList<String>();
 
         String query = String.format("select "+column+" from "+from+" where "+compare+" ='%s'", topic);
+        Cursor cursor = db.rawQuery(query, null);
+
+        while(cursor.moveToNext())
+        {
+            String question = cursor.getString(cursor.getColumnIndex(column));
+            arrayList.add(question);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<String> queryColumnWhereAnd(String column, String column2, String from,
+                                                 String compare, String and)
+    {
+        db = this.getReadableDatabase();
+        //String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, topic);
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+
+        String query = String.format("select "+column+", "+column2+" from "+from+" where " +
+                ""+column+" ='%s' and "+column2+" ='%s'",compare, and);
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext())
