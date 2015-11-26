@@ -1,12 +1,18 @@
 package com.gmail.donncha.assignment;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +29,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //ActionBar actionBar = getActionBar();
+        //ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#ffFEBB31"));
+        //getActionBar().setBackgroundDrawable(colorDrawable);
 
         // cast to EditText and assign to specified variable
         editUsername = (EditText) findViewById(R.id.editUsername);
@@ -65,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     Toast.makeText(getApplicationContext(),
                             "Password or Username invalid!", Toast.LENGTH_LONG).show();
-                    //temp.show();
+                    editUsername.setText("");
+                    editPassword.setText("");
                 }
 
                 //Intent intent = new Intent(MainActivity.this, Account.class);

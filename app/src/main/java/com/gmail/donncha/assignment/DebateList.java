@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -61,8 +62,13 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String username = getIntent().getStringExtra("Username");
 
+        String data =(String)parent.getItemAtPosition(position);
+
+        Log.w("Listview info: ", data);
+
         Intent i = new Intent(DebateList.this, DisplayDebate.class);
         i.putExtra("Username", username);
+        i.putExtra("Data", data);
         startActivity(i);
     }
 }

@@ -83,7 +83,7 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
 
             case R.id.bLogout:
-                
+
                 Intent i = new Intent(Account.this, MainActivity.class);
                 startActivity(i);
             break;

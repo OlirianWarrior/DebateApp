@@ -34,8 +34,6 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         bSearch2.setOnClickListener(this);
         bCreateDebate.setOnClickListener(this);
 
-        TextView tv = (TextView)findViewById(R.id.tvUserName);
-        tv.setText("Welcome " + username);
     }
 
     @Override

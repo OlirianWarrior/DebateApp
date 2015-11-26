@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by donncha on 11/23/2015.
  */
@@ -61,18 +64,29 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
                     String debateQuestionStr = debateQuestion.getText().toString();
                     String topicStr = topic.getSelectedItem().toString();
 
-                    DebateInfo c = new DebateInfo();
+                    ArrayList<String> checkQuestion = new ArrayList<String>();
+                    checkQuestion = helper.queryColumnWhere("question", "debate", debateQuestionStr,
+                            "question");
 
-                    c.setQuestion(debateQuestionStr);
-                    c.setTopic(topicStr);
-                    c.setUsername(username);
+                    if(checkQuestion.isEmpty()) {
+                        DebateInfo c = new DebateInfo();
 
-                    helper.insertDebate(c);
+                        c.setQuestion(debateQuestionStr);
+                        c.setTopic(topicStr);
+                        c.setUsername(username);
 
-                    username = getIntent().getStringExtra("Username");
-                    Intent j = new Intent(CreateDebate.this, Menu.class);
-                    j.putExtra("Username", username);
-                    startActivity(j);
+                        helper.insertDebate(c);
+
+                        username = getIntent().getStringExtra("Username");
+                        Intent j = new Intent(CreateDebate.this, Menu.class);
+                        j.putExtra("Username", username);
+                        startActivity(j);
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),
+                                "This question has already been asked", Toast.LENGTH_LONG).show();
+                    }
                     break;
         }
     }

@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by donncha on 11/14/2015.
  */
@@ -15,7 +17,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     DatabaseHelper helper = new DatabaseHelper(this);
 
-    Button regRegister;
+    Button regRegister, bBack;
     EditText regUsername, regName, regEmail, regPassword, regConfPassword;
 
     @Override
@@ -30,8 +32,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         regPassword = (EditText) findViewById(R.id.regPassword);
         regConfPassword = (EditText) findViewById(R.id.regConfPassword);
         regRegister = (Button) findViewById(R.id.regRegister);
+        bBack = (Button) findViewById(R.id.bBack);
 
         regRegister.setOnClickListener(this);
+        bBack.setOnClickListener(this);
     }
 
     @Override
@@ -40,7 +44,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         switch (v.getId())
         {
             case R.id.regRegister:
-
 
                 EditText username = (EditText)findViewById(R.id.regUsername);
                 EditText name = (EditText)findViewById(R.id.regName);
@@ -54,37 +57,52 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 String passwordStr = password.getText().toString();
                 String confpasswordStr = confpassword.getText().toString();
 
-                UserInfo c = new UserInfo();
+                ArrayList<String> checkUser = new ArrayList<String>();
 
-                c.setUsername(usernameStr);
-                c.setName(nameStr);
-                c.setEmail(emailStr);
-                c.setUsername(usernameStr);
-                c.setPassword(passwordStr);
-                c.setConfpassword(passwordStr);
+                checkUser = helper.queryColumnWhere("username", "users", usernameStr, "username");
+                if(checkUser.isEmpty()) {
 
-                helper.insertUser(c);
+                    if (!usernameStr.equals("") && !nameStr.equals("") && !emailStr.equals("") &&
+                            !passwordStr.equals("") && !confpasswordStr.equals("")) {
 
-                Toast.makeText(getApplicationContext(),
-                        "Registered Successfully", Toast.LENGTH_LONG).show();
+                        if (passwordStr.equals(confpasswordStr)) {
+                            UserInfo c = new UserInfo();
 
-                 //helped from:
-                 // http://code.tutsplus.com/tutorials/android-user-interface-design-password-confirmation--mobile-7428
+                            c.setUsername(usernameStr);
+                            c.setName(nameStr);
+                            c.setEmail(emailStr);
+                            c.setUsername(usernameStr);
+                            c.setPassword(passwordStr);
+                            c.setConfpassword(passwordStr);
 
-                /*if(!pass1str.equals(pass2str))
+                            helper.insertUser(c);
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Registered Successfully", Toast.LENGTH_LONG).show();
+
+                            startActivity(new Intent(Register.this, MainActivity.class));
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Passwords did not match!", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Please don't leave any of the fields blank", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
                 {
                     Toast.makeText(getApplicationContext(),
-                            "Passwords did not match!", Toast.LENGTH_LONG).show();
-                }*/
+                            "Username is already taken", Toast.LENGTH_LONG).show();
+                }
 
-
-                //String username =regUsername.getText().toString();
-                //String password =regPassword.getText().toString();
-
-              //  User registeredData = new User(usernameStr, passwordStr);
-
-                startActivity(new Intent(Register.this, MainActivity.class));
              break;
+
+            case R.id.bBack:
+                Intent j = new Intent(Register.this, Menu.class);
+                startActivity(j);
+                break;
+
         }
     }
 }

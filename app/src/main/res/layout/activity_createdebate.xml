@@ -22,6 +22,7 @@
         android:text="Select Topic:" />
 
     <Spinner
+
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,12 +30,23 @@
         android:spinnerMode="dropdown" />
 
     <Button
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:background="#6495ed"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="15dp"
         android:id="@+id/bCreateDebate"
-        android:text="Register"
+        android:text="Create Debate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
+        android:layout_marginBottom="10dp"
+        android:background="#6495ed"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="15dp"
         android:id="@+id/bBack"
         android:text="Back to Menu"
         android:layout_width="match_parent"

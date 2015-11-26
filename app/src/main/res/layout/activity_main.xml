@@ -37,6 +37,10 @@
         android:inputType="textPassword" />
 
     <Button
+        android:background="#6495ed"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="15dp"
         android:id="@+id/bLogin"
         android:text="Login"
         android:layout_width="match_parent"
@@ -50,6 +54,10 @@
         android:text="If you don't have an account register below:" />
 
     <Button
+        android:background="#6495ed"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="15dp"
         android:id="@+id/bRegister"
         android:text="Register"
         android:layout_width="match_parent"
