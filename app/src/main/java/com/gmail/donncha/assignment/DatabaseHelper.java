@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -151,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        String query = String.format("update debate set "+vote+"="+changeTo+"" +
+        String query = String.format("update debate set " + vote + "=" + changeTo + "" +
                 " where question = '%s';", question);
 
         db.execSQL(query);
@@ -224,8 +225,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ArrayList<String> arrayList = new ArrayList<String>();
 
-        String query = String.format("select "+column+", "+column2+" from "+from+" where " +
-                ""+column+" ='%s' and "+column2+" ='%s'",compare, and);
+        String query = String.format("select " + column + ", " + column2 + " from " + from + " where " +
+                "" + column + " ='%s' and " + column2 + " ='%s'", compare, and);
         Cursor cursor = db.rawQuery(query, null);
 
         while(cursor.moveToNext())
@@ -236,13 +237,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public QueryInfo searchUser(String username)
+    public QueryInfo searchUser(String from, String username)
     {
         db = this.getReadableDatabase();
         //String query = "select username, name, email from "+TABLE_NAME+" WHERE username='"+username+"'";
-        String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, username);
-
+        String query = String.format("select %s, %s, %s from %s WHERE username='%s'", COLUMN_USERNAME, COLUMN_NAME, COLUMN_EMAIL, from, username);
         Cursor cursor = db.rawQuery(query, null);
+        Log.w("count =", cursor.getCount() +"");
+
+        if(cursor == null || cursor.getCount() == 0){
+            Log.w("leaving", "ok");
+            return null;
+        }
+        cursor.moveToFirst();
         QueryInfo info = new QueryInfo(
                 cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),

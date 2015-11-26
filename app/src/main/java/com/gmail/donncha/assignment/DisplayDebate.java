@@ -74,6 +74,9 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         String username = getIntent().getStringExtra("Username");
         String data = getIntent().getStringExtra("Data");
+        ArrayList<String> hasVoted = new ArrayList<String>();
+        hasVoted = helper.queryColumnWhereAnd("username", "question", "hasvoted",
+                username, data );
 
         switch (v.getId()) {
             case R.id.bBack:
@@ -84,14 +87,6 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.bYesVote:
-
-                //commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");
-
-                //if user has voted, make new function to handle taking in two where clauses
-                ArrayList<String> hasVoted = new ArrayList<String>();
-
-                hasVoted = helper.queryColumnWhereAnd("username", "question", "hasvoted",
-                        username, data );
 
                 if(hasVoted.isEmpty())
                 {
@@ -111,19 +106,42 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
                     helper.insertVote(cur);
                 }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "You've already voted", Toast.LENGTH_LONG).show();
+                }
 
                 break;
 
             case R.id.bNoVote:
 
-                ArrayList<String> noVoteIncrement = new ArrayList<String>();
-                noVoteIncrement = helper.queryColumnWhere("no", "debate", data, "question");
-                String noVoteIncrementStr = noVoteData.get(0);
-                int incrementNoVote =  Integer.parseInt(noVoteIncrementStr) + 1;
-                String newNoValue = String.valueOf(incrementNoVote);
+                if(hasVoted.isEmpty()) {
+                    ArrayList<String> noVoteIncrement = new ArrayList<String>();
+                    noVoteIncrement = helper.queryColumnWhere("no", "debate", data, "question");
+                    String noVoteIncrementStr = noVoteData.get(0);
+                    int incrementNoVote = Integer.parseInt(noVoteIncrementStr) + 1;
+                    String newNoValue = String.valueOf(incrementNoVote);
 
-                helper.insertVoteToDebate("no", newNoValue, data );
-                Log.w("it has been created", newNoValue);
+                    helper.insertVoteToDebate("no", newNoValue, data);
+                    Log.w("it has been created", newNoValue);
+
+                    helper.insertVoteToDebate("yes", newNoValue, data);
+                    Log.w("it has been created", newNoValue);
+
+                    DebateInfo cur = new DebateInfo();
+
+                    cur.setUsername(username);
+                    cur.setQuestion(data);
+
+                    helper.insertVote(cur);
+
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "You've already voted", Toast.LENGTH_LONG).show();
+                }
 
                 break;
 
@@ -131,12 +149,13 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
                 EditText debateComment = (EditText) findViewById(R.id.editComment);
 
-                String debateQuestionStr = debateComment.getText().toString();
+                String debateCommentStr = debateComment.getText().toString();
 
-                if (debateQuestionStr != "" || debateQuestionStr != "Enter comment here...") {
+                if (!debateCommentStr.equals("") && !debateCommentStr.equals("Enter comment here..."))
+                {
                     CommentInfo c = new CommentInfo();
                     c.setUsername(username);
-                    c.setCommentData(debateQuestionStr);
+                    c.setCommentData(debateCommentStr);
                     c.setQuestion(data);
                     helper.insertComment(c);
                     commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");

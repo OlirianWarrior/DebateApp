@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,25 +43,26 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
         editPassword = (EditText) findViewById(R.id.editPassword);
         bLogout = (Button) findViewById(R.id.bLogout);
         bBack = (Button) findViewById(R.id.bBack);
-        TextView tv = (TextView)findViewById(R.id.tvUserview);
         TextView txtName = (TextView)findViewById(R.id.txtName);
         TextView txtEmail = (TextView)findViewById(R.id.txtEmail);
+        TextView txtUsername = (TextView)findViewById(R.id.txtUsername);
 
-        tv.setText("Welcome " + username);
+        txtUsername.setText(username);
 
         bLogout.setOnClickListener(this);
         bBack.setOnClickListener(this);
 
-        //give new local store contents
-        userLocalStore = new UserLocalStore(this);
-
         //Cursor cursor = helper.select("select * from users");
-
-        name = helper.searchUser(username).name;
-        email = helper.searchUser(username).email;
+        DatabaseHelper.QueryInfo info = helper.searchUser("users", username);
+        Log.w("username is: ", username);
+        if(info != null)
+        {
+        name = info.name;
+        email = info.email;
 
         txtName.setText(name);
         txtEmail.setText(email);
+        }
     }
 
     public void displayUserDetails()
@@ -76,20 +78,21 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v)
     {
+        String username = getIntent().getStringExtra("Username");
+
         switch (v.getId()){
 
             case R.id.bLogout:
-                userLocalStore.clearUserData();
-                userLocalStore.setUserLoggedIn(false);
-
-                startActivity(new Intent(Account.this, MainActivity.class));
+                
+                Intent i = new Intent(Account.this, MainActivity.class);
+                startActivity(i);
             break;
 
             case R.id.bBack:
-                String username = getIntent().getStringExtra("Username");
-                Intent i = new Intent(Account.this, Menu.class);
-                i.putExtra("Username", username);
-                startActivity(i);
+
+                Intent j = new Intent(Account.this, Menu.class);
+                j.putExtra("Username", username);
+                startActivity(j);
             break;
         }
     }
