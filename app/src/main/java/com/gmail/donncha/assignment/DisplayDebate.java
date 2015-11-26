@@ -55,15 +55,19 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
         yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
         noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
 
-        //String yesVote = yesVoteData[1];
+        String yesVote = yesVoteData.get(0);
+        String noVote = noVoteData.get(0);
         //String noVote =
-        //txtYesVote.setText(yesVote);
+        txtYesVote.setText(yesVote);
+        txtNoVote.setText(noVote);
 
         ArrayAdapter<String> myArrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, commentData);
         listview.setAdapter(myArrayAdapter);
 
         bBack.setOnClickListener(this);
         bSubmitComment.setOnClickListener(this);
+        bYesVote.setOnClickListener(this);
+        bNoVote.setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +81,33 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
                 Intent i = new Intent(DisplayDebate.this, Menu.class);
                 i.putExtra("Username", username);
                 startActivity(i);
+                break;
+
+            case R.id.bYesVote:
+
+                ArrayList<String> yesVoteIncrement = new ArrayList<String>();
+                yesVoteIncrement = helper.queryColumnWhere("yes", "debate", data, "question");
+                String yesVoteIncrementStr = yesVoteData.get(0);
+                int incrementYesVote =  Integer.parseInt(yesVoteIncrementStr) + 1;
+                String newYesValue = String.valueOf(incrementYesVote);
+
+                helper.insertVoteToDebate("yes", newYesValue, data );
+                Log.w("it has been created", newYesValue);
+                //insert vote
+
+                break;
+
+            case R.id.bNoVote:
+
+                ArrayList<String> noVoteIncrement = new ArrayList<String>();
+                noVoteIncrement = helper.queryColumnWhere("no", "debate", data, "question");
+                String noVoteIncrementStr = noVoteData.get(0);
+                int incrementNoVote =  Integer.parseInt(noVoteIncrementStr) + 1;
+                String newNoValue = String.valueOf(incrementNoVote);
+
+                helper.insertVoteToDebate("no", newNoValue, data );
+                Log.w("it has been created", newNoValue);
+
                 break;
 
             case R.id.bSubmitComment:

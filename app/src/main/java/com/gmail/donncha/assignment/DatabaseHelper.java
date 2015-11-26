@@ -37,6 +37,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_COMMENTDATA = "commentdata";
     private static final String COLUMN_COMMENT_ID = "comment_id";
 
+    private static final String TABLE_HASVOTED = "hasvoted";
+    private static final String COLUMN_VOTE_ID = "vote_id";
+
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE = "create table if not exists users  (username text primary key not null , " +
@@ -51,6 +54,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "FOREIGN KEY ("+COLUMN_USERNAME+") REFERENCES "+TABLE_NAME+"("+COLUMN_USERNAME+") , " +
             "FOREIGN KEY ("+COLUMN_QUESTION+") REFERENCES "+TABLE_DEBATE+"("+COLUMN_USERNAME+"));";
 
+    private static final String TABLE_CREATE_HASVOTED = "create table if not exists hasvoted (vote_id int primary key not null , " +
+            "username text not null , question text not null ," +
+            "FOREIGN KEY ("+COLUMN_USERNAME+") REFERENCES "+TABLE_NAME+"("+COLUMN_USERNAME+") , " +
+            "FOREIGN KEY ("+COLUMN_QUESTION+") REFERENCES "+TABLE_DEBATE+"("+COLUMN_USERNAME+"));";
+
     public DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CREATE);
         db.execSQL(TABLE_CREATE2);
         db.execSQL(TABLE_CREATE_COMMENTS);
+        db.execSQL(TABLE_HASVOTED);
         this.db = db;
     }
 
@@ -100,7 +109,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_COMMENT, null, values);
     }
 
-
     public void insertDebate(DebateInfo c)
     {
         db = this.getWritableDatabase();
@@ -119,6 +127,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_DEBATE, null, values);
         db.close();
+    }
+
+    public void insertVote(DebateInfo c)
+    {
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String query = "select * from hasvoted";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+
+        values.put(COLUMN_VOTE_ID, count);
+        values.put(COLUMN_USERNAME, c.getUsername());
+        values.put(COLUMN_QUESTION, c.getQuestion());
+
+        db.insert(TABLE_HASVOTED, null, values);
+        db.close();
+    }
+
+    public void insertVoteToDebate(String vote, String changeTo, String question)
+    {
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //String query = String.format("insert into debate (" + vote + ") values (" + changeTo + ") " +
+                //"from debate where question = '%s';", question);
+
+        String query = String.format("update debate set "+vote+"="+changeTo+"" +
+                " where question = '%s';", question);
+
+        db.execSQL(query);
     }
 
     public String searchPass(String username)
