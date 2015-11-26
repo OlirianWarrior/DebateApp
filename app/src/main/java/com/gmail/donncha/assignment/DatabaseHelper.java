@@ -151,9 +151,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        //String query = String.format("insert into debate (" + vote + ") values (" + changeTo + ") " +
-                //"from debate where question = '%s';", question);
-
         String query = String.format("update debate set "+vote+"="+changeTo+"" +
                 " where question = '%s';", question);
 

@@ -85,15 +85,25 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
             case R.id.bYesVote:
 
+                //commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");
+
+                //if user has voted, make new function to handle taking in two where clauses
+
                 ArrayList<String> yesVoteIncrement = new ArrayList<String>();
                 yesVoteIncrement = helper.queryColumnWhere("yes", "debate", data, "question");
                 String yesVoteIncrementStr = yesVoteData.get(0);
                 int incrementYesVote =  Integer.parseInt(yesVoteIncrementStr) + 1;
                 String newYesValue = String.valueOf(incrementYesVote);
 
-                helper.insertVoteToDebate("yes", newYesValue, data );
+                helper.insertVoteToDebate("yes", newYesValue, data);
                 Log.w("it has been created", newYesValue);
-                //insert vote
+
+                DebateInfo cur = new DebateInfo();
+
+                cur.setUsername(username);
+                cur.setQuestion(data);
+
+                helper.insertVote(cur);
 
                 break;
 
