@@ -220,30 +220,37 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
                 // in the textview field, if not then the comment will proceed to be processed,
                 // if not then a toast will trigger telling the user they must enter data
                 // into the comment before been allowed to comment
-                if(!hasVoted.isEmpty())
-                {
+                if(!hasVoted.isEmpty()) {
                     if (!debateCommentStr.equals("") && !debateCommentStr.equals("Enter comment here...")) {
-                        CommentInfo c = new CommentInfo();
-                        c.setUsername(username);
-                        c.setCommentData(debateCommentStr);
-                        c.setQuestion(data);
-                        helper.insertComment(c);
-                        commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");
-                        ArrayAdapter<String> myArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, commentData);
-                        listview.setAdapter(myArrayAdapter);
 
-                        editComment = (EditText) findViewById(R.id.editComment);
-                        editComment.setText("");
+                        if (debateCommentStr.length() <= 80) {
+                            CommentInfo c = new CommentInfo();
+                            c.setUsername(username);
+                            c.setCommentData(debateCommentStr);
+                            c.setQuestion(data);
+                            helper.insertComment(c);
+                            commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");
+                            ArrayAdapter<String> myArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, commentData);
+                            listview.setAdapter(myArrayAdapter);
+
+                            editComment = (EditText) findViewById(R.id.editComment);
+                            editComment.setText("");
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Comment Submitted", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Comments cannot be greater than 80 characters in length", Toast.LENGTH_LONG).show();
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(),
                                 "Please enter something into the comment before submitting", Toast.LENGTH_LONG).show();
                     }
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),
-                            "Please vote before commenting", Toast.LENGTH_LONG).show();
-                }
+                } else
+                    {
+                        Toast.makeText(getApplicationContext(),
+                                "Please vote before commenting", Toast.LENGTH_LONG).show();
+                    }
                 break;
         }
     }

@@ -81,7 +81,7 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
                 // if the above query has returned any results, it means that there is already
                 // a debate asking that specific question created and will display a message
                 // telling the user that that question has already been asked
-                if (debateQuestionStr.length() <= 40)
+                if (debateQuestionStr.length() <= 80)
                 {
                     if (checkQuestion.isEmpty()) {
                         DebateInfo c = new DebateInfo();
@@ -106,7 +106,7 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Question length cannot be over 40 characters long", Toast.LENGTH_LONG).show();
+                            "Question length cannot be over 80 characters long", Toast.LENGTH_LONG).show();
                 }
                 break;
         }
