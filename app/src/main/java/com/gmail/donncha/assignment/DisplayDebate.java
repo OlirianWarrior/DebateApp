@@ -61,8 +61,8 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
         yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
         noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
 
-        String yesVote = yesVoteData.get(0);
-        String noVote = noVoteData.get(0);
+        int yesVote = Integer.parseInt(yesVoteData.get(0));
+        int noVote = Integer.parseInt(noVoteData.get(0));
 
         ArrayList<String> hasVoted = new ArrayList<String>();
         hasVoted = helper.queryColumnWhereAnd("username", "question", "hasvoted",
@@ -71,8 +71,12 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
         // check if user has voted, and only display the voting figures if they already have
         if(!hasVoted.isEmpty())
         {
-            bYesVote.setText("Yes = " + yesVote);
-            bNoVote.setText("No = " + noVote);
+            int total = yesVote + noVote;
+
+            bYesVote.setText("Yes " + (int)getPercent(yesVote, total) + "%");
+            bNoVote.setText("No " + (int) getPercent(noVote, total) + "%");
+            bYesVote.setTextSize(25);
+            bNoVote.setTextSize(25);
         }
 
         // create adapter used for storing the data from the comments
@@ -85,6 +89,13 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
         bSubmitComment.setOnClickListener(this);
         bYesVote.setOnClickListener(this);
         bNoVote.setOnClickListener(this);
+    }
+
+    // get percent, to find precent of votes
+    public float getPercent(float value, float max)
+    {
+
+        return (value / max) * 100f;
     }
 
     @Override
@@ -209,9 +220,13 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
         // update the voting data in the textview field
         yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
         noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
-        String yesVote = yesVoteData.get(0);
-        String noVote = noVoteData.get(0);
-        bYesVote.setText("Yes = " + yesVote);
-        bNoVote.setText("No = " + noVote);
+        int yesVote = Integer.parseInt(yesVoteData.get(0));
+        int noVote = Integer.parseInt(noVoteData.get(0));
+        int total = yesVote + noVote;
+
+        bYesVote.setText("Yes " + (int)getPercent(yesVote, total) + "%");
+        bNoVote.setText("No " + (int) getPercent(noVote, total) + "%");
+        bYesVote.setTextSize(25);
+        bNoVote.setTextSize(25);
     }
 }
