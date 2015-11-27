@@ -115,7 +115,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
              break;
 
             case R.id.bBack:
-                Intent j = new Intent(Register.this, Menu.class);
+                Intent j = new Intent(Register.this, MainActivity.class);
                 startActivity(j);
                 break;
 

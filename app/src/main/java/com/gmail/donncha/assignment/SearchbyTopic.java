@@ -80,7 +80,6 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
     }
 
     // handle the onclick of the item in the listview and store relivant data in the putExtra
-    // and sent to the next activity
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String username = getIntent().getStringExtra("Username");
