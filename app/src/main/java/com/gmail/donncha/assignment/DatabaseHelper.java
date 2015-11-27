@@ -43,8 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-    private static final String TABLE_CREATE = "create table if not exists users  (username text primary key not null , " +
-            "name text not null , email text not null , password text not null , confpassword);";
+    private static final String TABLE_CREATE_USERS = "create table if not exists "+TABLE_NAME+"  " +
+            "("+COLUMN_USERNAME+" text primary key not null , " +
+            ""+COLUMN_NAME+" text not null ," +
+            ""+COLUMN_EMAIL+" text not null , " +
+            ""+COLUMN_EMAIL+" text not null , " +
+            ""+COLUMN_CONFPASSWORD+" text not null);";
 
     private static final String TABLE_CREATE2 = "create table if not exists debate (question text primary key not null , " +
             "topic text not null , yes int null, no int null , username text not null , " +
@@ -68,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL(TABLE_CREATE);
+        db.execSQL(TABLE_CREATE_USERS);
         db.execSQL(TABLE_CREATE2);
         db.execSQL(TABLE_CREATE_COMMENTS);
         db.execSQL(TABLE_CREATE_HASVOTED);

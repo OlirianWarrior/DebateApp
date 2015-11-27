@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText editUsername, editPassword;
     public static String loginUsername;
 
-    UserLocalStore userLocalStore;
-
     DatabaseHelper helper = new DatabaseHelper(this);
 
 
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bRegister.setOnClickListener(this);
         bLogin.setOnClickListener(this);
 
-        userLocalStore = new UserLocalStore(this);
     }
 
     @Override

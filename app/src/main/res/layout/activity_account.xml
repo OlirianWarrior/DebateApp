@@ -10,12 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvUserview"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:text="User Details:"
         />
 
     <TextView
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,14 +25,14 @@
         />
 
     <TextView
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtUsername"
         />
 
     <TextView
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,14 +43,14 @@
 
 
     <TextView
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtName"
         />
 
     <TextView
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
         />
 
     <TextView
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtEmail"

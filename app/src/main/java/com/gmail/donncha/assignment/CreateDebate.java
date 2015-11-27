@@ -16,6 +16,8 @@ import java.util.ArrayList;
 /**
  * Created by donncha on 11/23/2015.
  */
+
+// class to allow user to create a debate
 public class CreateDebate extends AppCompatActivity implements View.OnClickListener {
 
     DatabaseHelper helper = new DatabaseHelper(this);
@@ -27,17 +29,22 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        // set layout
         setContentView(R.layout.activity_createdebate);
 
         bBack = (Button) findViewById(R.id.bBack);
         bCreate = (Button) findViewById(R.id.bCreateDebate);
         editDebateQuestion = (EditText) findViewById(R.id.editDebateQuestion);
 
+        // initalise dropdown menu (spinner)
         dropdown = (Spinner) findViewById(R.id.spinner1);
+        // create an array of topics which users can select from
         String[] items = new String[]{"Politics", "Sports", "Video Games", "Contemporary Issues", "Music", "Science", "Other"};
+        // create adapter for the dropdown menu
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
+        // set button listeners
         bBack.setOnClickListener(this);
         bCreate.setOnClickListener(this);
     }
@@ -47,6 +54,7 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
         String username = getIntent().getStringExtra("Username");
 
         switch (v.getId()) {
+            // bring user back to the menu screen
             case R.id.bBack:
 
                 username = getIntent().getStringExtra("Username");
@@ -57,17 +65,21 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
 
                 case R.id.bCreateDebate:
 
-                    //EditText debateQuestion = (EditText) findViewById(R.id.editDebateQuestion);
                     EditText debateQuestion = (EditText) findViewById(R.id.editDebateQuestion);
                     Spinner topic = (Spinner) findViewById(R.id.spinner1);
 
                     String debateQuestionStr = debateQuestion.getText().toString();
                     String topicStr = topic.getSelectedItem().toString();
 
-                    ArrayList<String> checkQuestion = new ArrayList<String>();
+                    ArrayList<String> checkQuestion;
+                    // query database to find the question from the debate class where the
+                    // question is equals to that of the question currently open
                     checkQuestion = helper.queryColumnWhere("question", "debate", debateQuestionStr,
                             "question");
 
+                    // if the above query has returned any results, it means that there is already
+                    // a debate asking that specific question created and will display a message
+                    // telling the user that that question has already been asked
                     if(checkQuestion.isEmpty()) {
                         DebateInfo c = new DebateInfo();
 

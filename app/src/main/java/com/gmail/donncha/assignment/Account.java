@@ -17,19 +17,20 @@ import java.util.ArrayList;
 /**
  * Created by donncha on 11/14/2015.
  */
+// account screen to display any information that is stored on the user
 
 public class Account extends AppCompatActivity implements View.OnClickListener {
 
+    // create database object
     DatabaseHelper helper = new DatabaseHelper(this);
 
     Button bLogout, bBack;
     EditText editUsername, editPassword;
-    UserLocalStore userLocalStore;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // initalise variables
         String name = null;
         String email = null;
 
@@ -47,47 +48,42 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
         TextView txtEmail = (TextView)findViewById(R.id.txtEmail);
         TextView txtUsername = (TextView)findViewById(R.id.txtUsername);
 
+        // set text to the currently logged in username
         txtUsername.setText(username);
 
+        // set button listeners
         bLogout.setOnClickListener(this);
         bBack.setOnClickListener(this);
 
-        //Cursor cursor = helper.select("select * from users");
+        // query to find to retrieve information relivant to the user
         DatabaseHelper.QueryInfo info = helper.searchUser("users", username);
-        Log.w("username is: ", username);
-        if(info != null)
-        {
+
+        // retrieve infromation from the arraylist
         name = info.name;
         email = info.email;
 
         txtName.setText(name);
         txtEmail.setText(email);
-        }
-    }
-
-    public void displayUserDetails()
-    {
-        //if authenticate is correct, display that user's details
-        User user = userLocalStore.getLoggedInUser();
-
-        editUsername.setText(user.username);
-        editPassword.setText(user.password);
 
     }
+
 
     @Override
     public void onClick(View v)
     {
+        // get the logged in username
         String username = getIntent().getStringExtra("Username");
 
         switch (v.getId()){
 
+            //  bring back to login screen
             case R.id.bLogout:
 
                 Intent i = new Intent(Account.this, MainActivity.class);
                 startActivity(i);
             break;
 
+            // bring back to previous screen (menu)
             case R.id.bBack:
 
                 Intent j = new Intent(Account.this, Menu.class);
