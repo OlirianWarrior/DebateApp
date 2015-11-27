@@ -59,7 +59,7 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
                 Intent i = new Intent(SearchbyTopic.this, Menu.class);
                 i.putExtra("Username", username);
                 startActivity(i);
-
+                finish();
                 break;
 
             // query the database and retrieve relivant debates and use them to populate the
@@ -73,7 +73,6 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
                 question = helper.queryColumnWhere("question", "debate", topicStr, "topic");
                 ArrayAdapter<String> myArrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, question);
                 listview.setAdapter(myArrayAdapter);
-
                 break;
 
         }
@@ -90,5 +89,6 @@ public class SearchbyTopic extends AppCompatActivity implements View.OnClickList
         i.putExtra("Username", username);
         i.putExtra("Data", data);
         startActivity(i);
+        finish();
     }
 }

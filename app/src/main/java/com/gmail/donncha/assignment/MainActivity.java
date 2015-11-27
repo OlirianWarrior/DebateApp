@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent i = new Intent(MainActivity.this, Menu.class);
                     i.putExtra("Username", str);
                     startActivity(i);
+                    finish();
                 }
                 else
                 {
@@ -69,13 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     editUsername.setText("");
                     editPassword.setText("");
                 }
-
                 break;
 
             case R.id.bRegister:
 
                 // open intent to allow user to proceed to register
                 startActivity(new Intent(MainActivity.this, Register.class));
+                finish();
                 break;
         }
     }

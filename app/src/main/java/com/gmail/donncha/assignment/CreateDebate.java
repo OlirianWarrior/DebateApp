@@ -61,26 +61,29 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
                 Intent i = new Intent(CreateDebate.this, Menu.class);
                 i.putExtra("Username", username);
                 startActivity(i);
+                finish();
                 break;
 
-                case R.id.bCreateDebate:
+            case R.id.bCreateDebate:
 
-                    EditText debateQuestion = (EditText) findViewById(R.id.editDebateQuestion);
-                    Spinner topic = (Spinner) findViewById(R.id.spinner1);
+                EditText debateQuestion = (EditText) findViewById(R.id.editDebateQuestion);
+                Spinner topic = (Spinner) findViewById(R.id.spinner1);
 
-                    String debateQuestionStr = debateQuestion.getText().toString();
-                    String topicStr = topic.getSelectedItem().toString();
+                String debateQuestionStr = debateQuestion.getText().toString();
+                String topicStr = topic.getSelectedItem().toString();
 
-                    ArrayList<String> checkQuestion;
-                    // query database to find the question from the debate class where the
-                    // question is equals to that of the question currently open
-                    checkQuestion = helper.queryColumnWhere("question", "debate", debateQuestionStr,
-                            "question");
+                ArrayList<String> checkQuestion;
+                // query database to find the question from the debate class where the
+                // question is equals to that of the question currently open
+                checkQuestion = helper.queryColumnWhere("question", "debate", debateQuestionStr,
+                        "question");
 
-                    // if the above query has returned any results, it means that there is already
-                    // a debate asking that specific question created and will display a message
-                    // telling the user that that question has already been asked
-                    if(checkQuestion.isEmpty()) {
+                // if the above query has returned any results, it means that there is already
+                // a debate asking that specific question created and will display a message
+                // telling the user that that question has already been asked
+                if (debateQuestionStr.length() <= 40)
+                {
+                    if (checkQuestion.isEmpty()) {
                         DebateInfo c = new DebateInfo();
 
                         c.setQuestion(debateQuestionStr);
@@ -93,13 +96,19 @@ public class CreateDebate extends AppCompatActivity implements View.OnClickListe
                         Intent j = new Intent(CreateDebate.this, Menu.class);
                         j.putExtra("Username", username);
                         startActivity(j);
-                    }
-                    else
-                    {
+
+                        Toast.makeText(getApplicationContext(),
+                                "Debate Created", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
                         Toast.makeText(getApplicationContext(),
                                 "This question has already been asked", Toast.LENGTH_LONG).show();
                     }
-                    break;
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Question length cannot be over 40 characters long", Toast.LENGTH_LONG).show();
+                }
+                break;
         }
     }
 }

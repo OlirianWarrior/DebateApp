@@ -8,8 +8,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name="Splash"
+            android:label="Debateable" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,6 +23,7 @@
         <activity android:name="SearchbyTopic" android:label="SearchbyTopic"></activity>
         <activity android:name="CreateDebate" android:label="CreateDebate"></activity>
         <activity android:name="DisplayDebate" android:label="DisplayDebate"></activity>
+        <activity android:name="MainActivity" android:label="MainActivity"></activity>
     </application>
 
 </manifest>

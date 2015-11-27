@@ -61,7 +61,7 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
                 Intent i = new Intent(DebateList.this, Menu.class);
                 i.putExtra("Username", username);
                 startActivity(i);
-
+                finish();
                 break;
         }
     }
@@ -80,5 +80,6 @@ public class DebateList extends AppCompatActivity implements View.OnClickListene
         i.putExtra("Username", username);
         i.putExtra("Data", data);
         startActivity(i);
+        finish();
     }
 }

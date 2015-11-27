@@ -117,6 +117,7 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
                 Intent i = new Intent(DisplayDebate.this, Menu.class);
                 i.putExtra("Username", username);
                 startActivity(i);
+                finish();
                 break;
 
             case R.id.bYesVote:
@@ -141,6 +142,19 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
                     cur.setQuestion(data);
 
                     helper.insertVote(cur);
+
+
+                    // update the voting data in the textview field
+                    yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
+                    noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
+                    int yesVote = Integer.parseInt(yesVoteData.get(0));
+                    int noVote = Integer.parseInt(noVoteData.get(0));
+                    int total = yesVote + noVote;
+
+                    bYesVote.setText("Yes " + (int)getPercent(yesVote, total) + "%");
+                    bNoVote.setText("No " + (int) getPercent(noVote, total) + "%");
+                    bYesVote.setTextSize(25);
+                    bNoVote.setTextSize(25);
                 }
                 else
                 {
@@ -175,6 +189,18 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
                     helper.insertVote(cur);
 
+                    // update the voting data in the textview field
+                    yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
+                    noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
+                    int yesVote = Integer.parseInt(yesVoteData.get(0));
+                    int noVote = Integer.parseInt(noVoteData.get(0));
+                    int total = yesVote + noVote;
+
+                    bYesVote.setText("Yes " + (int)getPercent(yesVote, total) + "%");
+                    bNoVote.setText("No " + (int) getPercent(noVote, total) + "%");
+                    bYesVote.setTextSize(25);
+                    bNoVote.setTextSize(25);
+
                 }
                 else
                 {
@@ -194,39 +220,31 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
                 // in the textview field, if not then the comment will proceed to be processed,
                 // if not then a toast will trigger telling the user they must enter data
                 // into the comment before been allowed to comment
-                if (!debateCommentStr.equals("") && !debateCommentStr.equals("Enter comment here..."))
+                if(!hasVoted.isEmpty())
                 {
-                    CommentInfo c = new CommentInfo();
-                    c.setUsername(username);
-                    c.setCommentData(debateCommentStr);
-                    c.setQuestion(data);
-                    helper.insertComment(c);
-                    commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");
-                    ArrayAdapter<String> myArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, commentData);
-                    listview.setAdapter(myArrayAdapter);
+                    if (!debateCommentStr.equals("") && !debateCommentStr.equals("Enter comment here...")) {
+                        CommentInfo c = new CommentInfo();
+                        c.setUsername(username);
+                        c.setCommentData(debateCommentStr);
+                        c.setQuestion(data);
+                        helper.insertComment(c);
+                        commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");
+                        ArrayAdapter<String> myArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, commentData);
+                        listview.setAdapter(myArrayAdapter);
 
-                    editComment = (EditText) findViewById(R.id.editComment);
-                    editComment.setText("");
+                        editComment = (EditText) findViewById(R.id.editComment);
+                        editComment.setText("");
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Please enter something into the comment before submitting", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                 {
                     Toast.makeText(getApplicationContext(),
-                            "Please enter something into the comment before submitting", Toast.LENGTH_LONG).show();
+                            "Please vote before commenting", Toast.LENGTH_LONG).show();
                 }
-
                 break;
         }
-
-        // update the voting data in the textview field
-        yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
-        noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
-        int yesVote = Integer.parseInt(yesVoteData.get(0));
-        int noVote = Integer.parseInt(noVoteData.get(0));
-        int total = yesVote + noVote;
-
-        bYesVote.setText("Yes " + (int)getPercent(yesVote, total) + "%");
-        bNoVote.setText("No " + (int) getPercent(noVote, total) + "%");
-        bYesVote.setTextSize(25);
-        bNoVote.setTextSize(25);
     }
 }

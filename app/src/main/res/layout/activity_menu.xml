@@ -13,7 +13,7 @@
         />
 
     <Button
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
         android:background="@color/primary"
         android:textColor="@color/textColor"
@@ -48,13 +48,23 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         android:background="@color/primary"
         android:textColor="@color/textColor"
         android:textStyle="bold"
         android:textSize="15dp"
         android:id="@+id/bCreateDebate"
         android:text="Create Debate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:background="@color/primary"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:id="@+id/bLogout"
+        android:text="Logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

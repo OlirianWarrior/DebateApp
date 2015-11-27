@@ -97,6 +97,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                     "Registered Successfully", Toast.LENGTH_LONG).show();
 
                             startActivity(new Intent(Register.this, MainActivity.class));
+                            finish();
                         } else {
                             Toast.makeText(getApplicationContext(),
                                     "Passwords did not match!", Toast.LENGTH_LONG).show();
@@ -117,6 +118,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             case R.id.bBack:
                 Intent j = new Intent(Register.this, MainActivity.class);
                 startActivity(j);
+                finish();
                 break;
 
         }

@@ -83,6 +83,7 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
 
                 Intent i = new Intent(Account.this, MainActivity.class);
                 startActivity(i);
+                finish();
             break;
 
             // bring back to previous screen (menu)
@@ -91,6 +92,7 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
                 Intent j = new Intent(Account.this, Menu.class);
                 j.putExtra("Username", username);
                 startActivity(j);
+                finish();
             break;
         }
     }

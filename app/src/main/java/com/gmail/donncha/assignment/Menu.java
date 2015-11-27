@@ -13,7 +13,7 @@ import android.widget.TextView;
  */
 public class Menu extends AppCompatActivity implements View.OnClickListener {
 
-    Button bAccount, bSearch, bSearch2, bCreateDebate;
+    Button bAccount, bSearch, bSearch2, bCreateDebate, bLogout;
     public static String username;
 
     @Override
@@ -28,17 +28,19 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
         bSearch =(Button)findViewById(R.id.bSearch);
         bSearch2 =(Button)findViewById(R.id.bSearch2);
         bCreateDebate =(Button)findViewById(R.id.bCreateDebate);
+        bLogout =(Button)findViewById(R.id.bLogout);
 
         bAccount.setOnClickListener(this);
         bSearch.setOnClickListener(this);
         bSearch2.setOnClickListener(this);
         bCreateDebate.setOnClickListener(this);
+        bLogout.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        String username;
+        username = getIntent().getStringExtra("Username");
 
         // open the various screens, storing the username in the putExtra and passing it onto
         // any of the clicked screens
@@ -46,37 +48,42 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.bAccount:
 
-                username = getIntent().getStringExtra("Username");
                 Intent i = new Intent(Menu.this, Account.class);
                 i.putExtra("Username", username);
                 startActivity(i);
-
+                finish();
                 break;
 
             case R.id.bSearch:
 
-                username = getIntent().getStringExtra("Username");
                 Intent k = new Intent(Menu.this, DebateList.class);
                 k.putExtra("Username", username);
                 startActivity(k);
-
+                finish();
                 break;
 
             case R.id.bSearch2:
 
-                username = getIntent().getStringExtra("Username");
                 Intent j = new Intent(Menu.this, SearchbyTopic.class);
                 j.putExtra("Username", username);
                 startActivity(j);
-
+                finish();
                 break;
 
             case R.id.bCreateDebate:
 
-                username = getIntent().getStringExtra("Username");
                 Intent l = new Intent(Menu.this, CreateDebate.class);
                 l.putExtra("Username", username);
                 startActivity(l);
+                finish();
+                break;
+
+            case R.id.bLogout:
+
+                Intent m = new Intent(Menu.this, MainActivity.class);
+                startActivity(m);
+                finish();
+                break;
         }
     }
 }
