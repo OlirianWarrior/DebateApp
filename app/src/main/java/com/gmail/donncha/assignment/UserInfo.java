@@ -3,6 +3,7 @@ package com.gmail.donncha.assignment;
 /**
  * Created by donncha on 11/16/2015.
  */
+// data structure for storing user info variables
 public class UserInfo {
 
     String username, name, email, password, confpassword;

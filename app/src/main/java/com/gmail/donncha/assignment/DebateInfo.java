@@ -3,6 +3,8 @@ package com.gmail.donncha.assignment;
 /**
  * Created by donncha on 11/23/2015.
  */
+
+// data structure for storing debate info variables
 public class DebateInfo {
 
     String question, topic, username;

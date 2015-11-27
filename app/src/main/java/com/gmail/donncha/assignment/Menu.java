@@ -40,6 +40,8 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         String username;
 
+        // open the various screens, storing the username in the putExtra and passing it onto
+        // any of the clicked screens
         switch (v.getId()) {
 
             case R.id.bAccount:

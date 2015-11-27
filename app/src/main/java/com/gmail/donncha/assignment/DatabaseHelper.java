@@ -16,11 +16,10 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
     private static final String DATABASE_NAME = "DebateApp.db";
 
     private static final String TABLE_NAME = "users";
-    //private static final String COLUMN_ID = "user_id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_EMAIL = "email";
@@ -28,7 +27,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CONFPASSWORD = "confpassword";
 
     private static final String TABLE_DEBATE = "debate";
-    private static final String COLUMN_ID = "debate_id";
     private static final String COLUMN_QUESTION = "question";
     private static final String COLUMN_TOPIC = "topic";
     private static final String COLUMN_YES = "yes";
@@ -43,24 +41,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
+    // set strings to create and populate the databases
     private static final String TABLE_CREATE_USERS = "create table if not exists "+TABLE_NAME+"  " +
             "("+COLUMN_USERNAME+" text primary key not null , " +
             ""+COLUMN_NAME+" text not null ," +
             ""+COLUMN_EMAIL+" text not null , " +
-            ""+COLUMN_EMAIL+" text not null , " +
+            ""+COLUMN_PASSWORD+" text not null , " +
             ""+COLUMN_CONFPASSWORD+" text not null);";
 
-    private static final String TABLE_CREATE2 = "create table if not exists debate (question text primary key not null , " +
-            "topic text not null , yes int null, no int null , username text not null , " +
+    private static final String TABLE_CREATE_DEBATE = "create table if not exists " +
+            ""+TABLE_DEBATE+"" +
+            " ("+COLUMN_QUESTION+" text primary key not null , " +
+            ""+COLUMN_TOPIC+" text not null , " +
+            ""+COLUMN_YES+" int null, " +
+            ""+COLUMN_NO+" int null , " +
+            ""+COLUMN_USERNAME+" text not null , " +
             "FOREIGN KEY ("+COLUMN_USERNAME+") REFERENCES "+TABLE_NAME+"("+COLUMN_USERNAME+"));";
 
-    private static final String TABLE_CREATE_COMMENTS = "create table if not exists comment (comment_id int primary key not null , " +
-            "commentdata text not null , username text not null , question text not null , " +
+    private static final String TABLE_CREATE_COMMENTS = "create table if not exists " +
+            ""+TABLE_COMMENT+" " +
+            "("+COLUMN_COMMENT_ID+" int primary key not null , " +
+            ""+COLUMN_COMMENTDATA+" text not null , " +
+            ""+COLUMN_USERNAME+" text not null , " +
+            ""+COLUMN_QUESTION+" text not null , " +
             "FOREIGN KEY ("+COLUMN_USERNAME+") REFERENCES "+TABLE_NAME+"("+COLUMN_USERNAME+") , " +
             "FOREIGN KEY ("+COLUMN_QUESTION+") REFERENCES "+TABLE_DEBATE+"("+COLUMN_USERNAME+"));";
 
-    private static final String TABLE_CREATE_HASVOTED = "create table if not exists hasvoted (vote_id int primary key not null , " +
-            "username text not null , question text not null ," +
+    private static final String TABLE_CREATE_HASVOTED = "create table if not exists " +
+            ""+TABLE_HASVOTED+" " +
+            "("+COLUMN_VOTE_ID+" int primary key not null , " +
+            ""+COLUMN_USERNAME+" text not null , " +
+            ""+COLUMN_QUESTION+" text not null ," +
             "FOREIGN KEY ("+COLUMN_USERNAME+") REFERENCES "+TABLE_NAME+"("+COLUMN_USERNAME+") , " +
             "FOREIGN KEY ("+COLUMN_QUESTION+") REFERENCES "+TABLE_DEBATE+"("+COLUMN_USERNAME+"));";
 
@@ -72,34 +83,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db)
     {
+        // using strings above create through execSQL
         db.execSQL(TABLE_CREATE_USERS);
-        db.execSQL(TABLE_CREATE2);
+        db.execSQL(TABLE_CREATE_DEBATE);
         db.execSQL(TABLE_CREATE_COMMENTS);
         db.execSQL(TABLE_CREATE_HASVOTED);
         this.db = db;
     }
 
+    // method for inserting a user into the appropriate database taking in strings from the
+    // userinfo class
     public void insertUser(UserInfo c)
     {
+        // allow data to be written into the database
         db = this.getWritableDatabase();
+        // used for storing the set of the values that are going to be inserted into the database
         ContentValues values = new ContentValues();
 
         String query = "select * from users";
         Cursor cursor = db.rawQuery(query, null);
 
+        // take in values to insert into the database
         values.put(COLUMN_USERNAME, c.getUsername());
         values.put(COLUMN_NAME, c.getName());
         values.put(COLUMN_EMAIL, c.getEmail());
         values.put(COLUMN_PASSWORD, c.getPassword());
         values.put(COLUMN_CONFPASSWORD, c.getConfpassword());
 
+        // insert into the database
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
 
+    // method for inserting a comment into the appropriate database taking in strings from the
+    // CommentInfo data structure
     public void insertComment(CommentInfo c)
     {
         db = this.getReadableDatabase();
+        // used for storing the set of the values that are going to be inserted into the database
         ContentValues values = new ContentValues();
 
         String query = "select * from comment";
@@ -114,9 +135,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_COMMENT, null, values);
     }
 
+    // method for inserting a debate into the appropriate database taking in strings from the
+    // DebateInfo data structure
     public void insertDebate(DebateInfo c)
     {
         db = this.getWritableDatabase();
+        // used for storing the set of the values that are going to be inserted into the database
         ContentValues values = new ContentValues();
 
         String query = "select * from debate";
@@ -134,9 +158,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    // method for inserting a vote into the appropriate database taking in strings from the
+    // DebateInfo data structure, this was reused as they already share the same fields
     public void insertVote(DebateInfo c)
     {
         db = this.getWritableDatabase();
+        // used for storing the set of the values that are going to be inserted into the database
         ContentValues values = new ContentValues();
 
         String query = "select * from hasvoted";
@@ -151,9 +178,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    // method for inserting a vote into a debate taking in the vote value and the debate in which
+    // to be updated
     public void insertVoteToDebate(String vote, String changeTo, String question)
     {
         db = this.getWritableDatabase();
+        // used for storing the set of the values that are going to be inserted into the database
         ContentValues values = new ContentValues();
 
         String query = String.format("update debate set " + vote + "=" + changeTo + "" +
@@ -162,30 +192,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    // method to search if the correct password has been entered by matching the entered one
+    // with the correct one for the specificed user
     public String searchPass(String username)
     {
         db = this.getReadableDatabase();
         String query = "select username, password from "+TABLE_NAME;
 
         Cursor cursor = db.rawQuery(query, null);
-        String a, b;
-        b = "invalid username or password";
+        String pass1, pass2;
+        pass2 = "invalid username or password";
         if(cursor.moveToFirst())
         {
             do{
-                a = cursor.getString(0);
+                pass1 = cursor.getString(0);
 
-                if(a.equals(username))
+                if(pass1.equals(username))
                 {
-                    b = cursor.getString(1);
+                    pass2 = cursor.getString(1);
                     break;
                 }
             }
             while(cursor.moveToNext());
         }
-        return b;
+        return pass2;
     }
 
+    // query a specific Column, an String Arraylist is used as many fields are expected to be
+    // returned
     public ArrayList<String> queryColumn(String column, String table)
     {
         db = this.getReadableDatabase();
@@ -203,10 +237,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    // query a column using a where clause, taking in parameters of the column to be returned,
+    // the table and the column to be compared against the desired data
     public ArrayList<String> queryColumnWhere(String column, String from, String topic, String compare)
     {
         db = this.getReadableDatabase();
-        //String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, topic);
 
         ArrayList<String> arrayList = new ArrayList<String>();
 
@@ -221,11 +256,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    // query a column using a where and an and clause, taking in parameters of the column to be returned,
+    // the table and the column to be compared against the desired data
     public ArrayList<String> queryColumnWhereAnd(String column, String column2, String from,
                                                  String compare, String and)
     {
         db = this.getReadableDatabase();
-        //String query = String.format("select username, name, email from %s WHERE username='%s'", TABLE_NAME, topic);
 
         ArrayList<String> arrayList = new ArrayList<String>();
 
@@ -241,11 +277,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    // method to query for a user, returning all the information from the specific user and return
+    // each column of that user using the QueryInfo subclass
     public QueryInfo searchUser(String from, String username)
     {
         db = this.getReadableDatabase();
-        //String query = "select username, name, email from "+TABLE_NAME+" WHERE username='"+username+"'";
-        String query = String.format("select %s, %s, %s from %s WHERE username='%s'", COLUMN_USERNAME, COLUMN_NAME, COLUMN_EMAIL, from, username);
+        String query = String.format("select %s, %s, %s from %s WHERE username='%s'",
+                COLUMN_USERNAME, COLUMN_NAME, COLUMN_EMAIL, from, username);
         Cursor cursor = db.rawQuery(query, null);
         Log.w("count =", cursor.getCount() +"");
 
@@ -263,22 +301,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return info;
     }
 
-    public Cursor select(String query)
-    {
-        Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
-        return cursor;
-    }
-
-    public Cursor select(String query, List<String> params)
-    {
-        Cursor cursor = db.rawQuery(query, (String[])params.toArray());
-        cursor.moveToFirst();
-        return  cursor;
-    }
-
+    // invoked when the database is open to check if the classes already exists
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVerison)
     {
+        // drop the following tables if they exist
         String query = "DROP TABLE IF EXISTS "+TABLE_NAME;
         db.execSQL(query);
         this.onCreate(db);
@@ -286,9 +312,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query2 = "DROP TABLE IF EXISTS "+TABLE_DEBATE;
         db.execSQL(query2);
         this.onCreate(db);
+
+        String query3 = "DROP TABLE IF EXISTS "+TABLE_COMMENT;
+        db.execSQL(query3);
+        this.onCreate(db);
+
+        String query4 = "DROP TABLE IF EXISTS "+TABLE_HASVOTED;
+        db.execSQL(query4);
+        this.onCreate(db);
     }
 
-    public class QueryInfo {
+    // subclass to for storing data of the returned user
+    public class QueryInfo
+    {
         public String username;
         public String name;
         public String email;

@@ -56,6 +56,7 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
         TextView tv = (TextView) findViewById(R.id.txtQuestion);
         tv.setText(data);
 
+        // queries for return the comment data and voting data
         commentData = helper.queryColumnWhere("commentdata", "comment", data, "question");
         yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
         noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
@@ -74,7 +75,10 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
             bNoVote.setText("No = " + noVote);
         }
 
-        ArrayAdapter<String> myArrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, commentData);
+        // create adapter used for storing the data from the comments
+        ArrayAdapter<String> myArrayAdapter =  new ArrayAdapter(this, android.R.layout.
+                simple_list_item_1, commentData);
+
         listview.setAdapter(myArrayAdapter);
 
         bBack.setOnClickListener(this);
@@ -89,11 +93,14 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
         String username = getIntent().getStringExtra("Username");
 
+        // query to return data if the user has voted
         ArrayList<String> hasVoted = new ArrayList<String>();
         hasVoted = helper.queryColumnWhereAnd("username", "question", "hasvoted",
                 username, data );
 
         switch (v.getId()) {
+
+            // button to bring user back to menu screen
             case R.id.bBack:
 
                 Intent i = new Intent(DisplayDebate.this, Menu.class);
@@ -103,6 +110,9 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
             case R.id.bYesVote:
 
+                // check if hasVoted is empty, if it is it means that there is no recoreded data
+                // of that user voting, which will allow their vote to proceed to be processed,
+                // if not then a toast will trigger telling the user that they have already voted
                 if(hasVoted.isEmpty())
                 {
                     ArrayList<String> yesVoteIncrement = new ArrayList<String>();
@@ -131,6 +141,9 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
             case R.id.bNoVote:
 
+                // check if hasVoted is empty, if it is it means that there is no recoreded data
+                // of that user voting, which will allow their vote to proceed to be processed,
+                // if not then a toast will trigger telling the user that they have already voted
                 if(hasVoted.isEmpty()) {
                     ArrayList<String> noVoteIncrement = new ArrayList<String>();
                     noVoteIncrement = helper.queryColumnWhere("no", "debate", data, "question");
@@ -166,6 +179,10 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
                 String debateCommentStr = debateComment.getText().toString();
 
+                // check if the comment is either empty or set to the default value that is
+                // in the textview field, if not then the comment will proceed to be processed,
+                // if not then a toast will trigger telling the user they must enter data
+                // into the comment before been allowed to comment
                 if (!debateCommentStr.equals("") && !debateCommentStr.equals("Enter comment here..."))
                 {
                     CommentInfo c = new CommentInfo();
@@ -188,6 +205,8 @@ public class DisplayDebate extends AppCompatActivity implements View.OnClickList
 
                 break;
         }
+
+        // update the voting data in the textview field
         yesVoteData = helper.queryColumnWhere("yes", "debate", data, "question");
         noVoteData = helper.queryColumnWhere("no", "debate", data, "question");
         String yesVote = yesVoteData.get(0);

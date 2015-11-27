@@ -22,22 +22,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     DatabaseHelper helper = new DatabaseHelper(this);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //ActionBar actionBar = getActionBar();
-        //ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#ffFEBB31"));
-        //getActionBar().setBackgroundDrawable(colorDrawable);
-
-        // cast to EditText and assign to specified variable
         editUsername = (EditText) findViewById(R.id.editUsername);
         editPassword = (EditText) findViewById(R.id.editPassword);
+
         // cast to Button and assign to specified variable
         bRegister = (Button) findViewById(R.id.bRegister);
         bLogin = (Button) findViewById(R.id.bLogin);
+
         // assign newly assigned buttons to click listeners
         bRegister.setOnClickListener(this);
         bLogin.setOnClickListener(this);
@@ -51,16 +47,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.bLogin:
 
-                //User user = new User(null, null);
-                //userLocalStore.storeUserData(user);
-                //userLocalStore.setUserLoggedIn(true);
-
                 EditText a = (EditText)findViewById(R.id.editUsername);
                 String str = a.getText().toString();
                 EditText b = (EditText)findViewById(R.id.editPassword);
                 String pass = b.getText().toString();
 
-                // fetch password
+                // query database to fetch the password of the enetered password and the password
+                // that matches the entered user, if not then a toast will trigger telling the
+                // user that they have not enetered the correct information
                 String password = helper.searchPass(str);
                 if(pass.equals(password))
                 {
@@ -76,12 +70,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     editPassword.setText("");
                 }
 
-                //Intent intent = new Intent(MainActivity.this, Account.class);
                 break;
 
             case R.id.bRegister:
-                //Toast.makeText(getApplicationContext(),
-                        //"Top Button clicked", Toast.LENGTH_LONG).show();
+
+                // open intent to allow user to proceed to register
                 startActivity(new Intent(MainActivity.this, Register.class));
                 break;
         }

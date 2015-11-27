@@ -13,6 +13,8 @@ import java.util.ArrayList;
 /**
  * Created by donncha on 11/14/2015.
  */
+
+// allow a new user to fill in relivant information and have their account be created
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
     DatabaseHelper helper = new DatabaseHelper(this);
@@ -34,6 +36,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         regRegister = (Button) findViewById(R.id.regRegister);
         bBack = (Button) findViewById(R.id.bBack);
 
+        // set buttons to click listeners
         regRegister.setOnClickListener(this);
         bBack.setOnClickListener(this);
     }
@@ -45,12 +48,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         {
             case R.id.regRegister:
 
+                // take data eneted into each field
                 EditText username = (EditText)findViewById(R.id.regUsername);
                 EditText name = (EditText)findViewById(R.id.regName);
                 EditText email = (EditText)findViewById(R.id.regEmail);
                 EditText password = (EditText)findViewById(R.id.regPassword);
                 EditText confpassword = (EditText)findViewById(R.id.regConfPassword);
 
+                // convert the data from each field into a string
                 String usernameStr = username.getText().toString();
                 String nameStr = name.getText().toString();
                 String emailStr = email.getText().toString();
@@ -59,15 +64,25 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
                 ArrayList<String> checkUser = new ArrayList<String>();
 
+                // check if a user with that name already exists, it must be unique so
+                // present a toast if and do not proceed if a user with the entered username
+                // already exists
                 checkUser = helper.queryColumnWhere("username", "users", usernameStr, "username");
                 if(checkUser.isEmpty()) {
 
+                    // check to make sure all the fields have information entered in them,
+                    // none can be left blank to present a toast prompting the user to finish
+                    // filling in the information if any or left blank, if not proceed below
                     if (!usernameStr.equals("") && !nameStr.equals("") && !emailStr.equals("") &&
                             !passwordStr.equals("") && !confpasswordStr.equals("")) {
 
+                        // check if the entered password and confirmation password are both
+                        // the same, prompt the user that they both do not match if not, proceed
+                        // to eneter the information into the userdata and create a new user
                         if (passwordStr.equals(confpasswordStr)) {
                             UserInfo c = new UserInfo();
 
+                            // set the user data
                             c.setUsername(usernameStr);
                             c.setName(nameStr);
                             c.setEmail(emailStr);
@@ -75,6 +90,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             c.setPassword(passwordStr);
                             c.setConfpassword(passwordStr);
 
+                            // insert into the data base using the interUser method
                             helper.insertUser(c);
 
                             Toast.makeText(getApplicationContext(),
